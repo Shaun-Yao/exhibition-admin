@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/webjars/github-com-novaeye-jquery-easyui-bower/1.5.0.1/jquery.min.js"></script>
+    <script src="/webjars/github-com-novaeye-jquery-easyui-bower/1.5.0.1/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" href="/webjars/github-com-novaeye-jquery-easyui-bower/1.5.0.1/themes/default/easyui.css" />
+
+</head>
+<body>
+<div class="easyui-panel" title="登录" style="width:400px">
+    <div style="padding:10px 60px 20px 60px">
+        <form id="ff" th:action="@{login}" method="post">
+            <table cellpadding="5">
+                <tr >
+                    <td></td>
+                    <td th:if="${wrong}">账号或者密码错误！</td>
+
+                </tr>
+                <tr>
+                    <td>账号:</td>
+                    <td><input class="easyui-textbox" type="text" name="account" data-options="required:true"></input></td>
+                </tr>
+                <tr>
+                    <td>密码:</td>
+                    <td><input class="easyui-passwordbox" type="text" name="password" data-options="required:true"></input></td>
+                </tr>
+
+            </table>
+        </form>
+        <div style="text-align:center;padding:5px">
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">登录</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">清空</a>
+        </div>
+    </div>
+</div>
+
+</body>
+<script th:inline="javascript">
+    function submitForm(){
+        $('#ff').form('submit',{
+            onSubmit:function(){
+                //console.log($(this).form('enableValidation').form('validate'));
+                //return $(this).form('enableValidation').form('validate');
+                if($(this).form('enableValidation').form('validate')) {
+                    $('#ff').submit();
+                }
+
+            }
+        });
+
+    }
+    function clearForm(){
+        $('#ff').form('clear');
+    }
+</script>
+</html>

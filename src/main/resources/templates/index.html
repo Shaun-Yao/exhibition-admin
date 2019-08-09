@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/webjars/github-com-novaeye-jquery-easyui-bower/1.5.0.1/jquery.min.js"></script>
+    <script src="/webjars/github-com-novaeye-jquery-easyui-bower/1.5.0.1/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" href="/webjars/github-com-novaeye-jquery-easyui-bower/1.5.0.1/themes/default/easyui.css" />
+    <link rel="stylesheet" href="/webjars/github-com-novaeye-jquery-easyui-bower/1.5.0.1/themes/icon.css" />
+
+</head>
+<body class="easyui-layout">
+
+<div region="north" style="height: 107px;background-color: #F0F0F0">
+    <table style="padding: 5px" width="100%">
+        <tr>
+            <td width="50%">
+                <img alt="logo" src="" />
+            </td>
+            <td valign="bottom" align="right" width="50%">
+                <font size="3">&nbsp;&nbsp;<strong>欢迎：</strong><span>xx</span></font>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div region="center">
+    <div class="easyui-tabs" fit="true" border="false" id="tabs">
+        <div title="首页" data-options="">
+            <table id="dg" title="用户 CRUD 管理" class="easyui-datagrid" fitColumns="true" method="get"
+                   singleSelect ="true" pagination="true" rownumbers="true" url="/bus/list" fit="true" toolbar="#tb">
+                <thead>
+                <tr>
+                   <!-- <th field="cb" checkbox="true" align="center"></th>-->
+                    <th field="id" hidden="true">ID</th>
+                    <th field="busNum" width="100" align="center">车牌号</th>
+                    <th field="loadNum" width="200" align="center">限载人数</th>
+                </tr>
+                </thead>
+            </table>
+
+            <!-- CRUD 菜单栏 -->
+            <div id="tb">
+                <!--plain="true"去掉边框-->
+                <a href="javascript:openAddDialog()" class="easyui-linkbutton" iconCls="icon-add" plain="true">添加</a>
+                <a href="javascript:openLinkModifyDialog()" class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改</a>
+                <a href="javascript:remove()" class="easyui-linkbutton" iconCls="icon-remove" plain="true">删除</a>
+            </div>
+
+            <!-- 修改框内容 -->
+            <div id="dlg" class="easyui-dialog" style="width: 500px;height: 200px;padding: 10px 20px" closed="true" buttons="#dlg-buttons">
+                <form id="form" action="/bus/add" method="post">
+                    <table cellspacing="8px">
+                        <tr>
+                            <td>车牌号：</td>
+                            <td>
+                                <input type="text" id="busNum" name="busNum" class="easyui-validatebox" required="true" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>限载人数：</td>
+                            <td>
+                                <input type="text" id="loadNum" name="loadNum" class="easyui-validatebox" required="true" />
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+
+            <!-- 修改对话框的 save、close 按钮 -->
+            <div id="dlg-buttons">
+                <a href="javascript:add()" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+                <a href="javascript:closeLinkDialog()" class="easyui-linkbutton" iconCls="icon-cancel">关闭</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="sm" style="width:200px"></div>
+<div region="west" style="width: 200px" title="导航菜单" split="true">
+    <div style="padding-top: 10px;padding-left: 10px;">
+        <a href="javascript:openTab('排班','/bus-schedule/index')" class="easyui-linkbutton"  style="width: 150px;">排班</a>
+        <a href="javascript:openTab('分车','/bus-user/index')" class="easyui-linkbutton" style="width: 150px;">分车</a>
+        <a href="javascript:openTab('取消分车','/bus-user/cancel')" class="easyui-linkbutton" style="width: 150px;">取消分车</a>
+    </div>
+</div>
+
+<div region="south" style="height: 30px;padding: 5px" align="center">
+    Copyright © 2019-2022
+</div>
+
+</body>
+
+<script th:inline="javascript">
+
+    $(function(){
+       /* $('#dg').datagrid({
+            url:'/bus/list'
+        });*/
+
+    });
+    
+    function add() {
+        $('#form').form('submit',{
+            onSubmit:function(){
+
+                return $(this).form('enableValidation').form('validate');
+            },
+            success: function(data){
+                $('#dlg').dialog('close');
+                $('#dg').datagrid('reload');
+            }
+        });
+    }
+
+    function remove()  {
+        //console.log($('#dg').datagrid('getSelected').id);
+        if($('#dg').datagrid('getSelected') == null) {
+            return;
+        }
+        $.messager.confirm('Confirm', '确认删除?', function(r){
+            if (r){
+                $.ajax({
+                    type: "POST",
+                    url: "/bus/remove?id=" + $('#dg').datagrid('getSelected').id,
+                    //async: false,
+                    success: function(data){
+                        $('#dg').datagrid('reload');
+                    }
+                });
+            }
+        });
+
+    }
+    
+    function openAddDialog() {
+        $('#dlg').dialog('open');
+    }
+
+    function openTab(text, url) {
+        if($("#tabs").tabs("exists", text)) {
+            //如果已经存在，则使之处于选中的状态
+            $("#tabs").tabs("select", text);
+        } else {
+            //如果不存在则新增加一个
+            var content = "<iframe frameborder=0 scrolling='auto' style='width:100%;height:100%' src='" + url + "'></iframe>";
+            $("#tabs").tabs("add", {
+                title: text, //标题
+                closable: true, //可以关闭
+                content: content //内容，内嵌一个 iframe！
+            });
+        }
+    }
+</script>
+</html>

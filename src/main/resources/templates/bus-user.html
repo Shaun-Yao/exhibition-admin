@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/webjars/github-com-novaeye-jquery-easyui-bower/1.5.0.1/jquery.min.js"></script>
+    <script src="/webjars/github-com-novaeye-jquery-easyui-bower/1.5.0.1/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" href="/webjars/github-com-novaeye-jquery-easyui-bower/1.5.0.1/themes/default/easyui.css" />
+    <link rel="stylesheet" href="/webjars/github-com-novaeye-jquery-easyui-bower/1.5.0.1/themes/icon.css" />
+
+</head>
+<body >
+
+
+            <table id="dg" title="用户 CRUD 管理" class="easyui-datagrid" fitColumns="true" method="get"
+                    pagination="true" rownumbers="true"  fit="true" toolbar="#tb">
+                <thead>
+                <tr>
+                    <th field="cb" checkbox="true" align="center"></th>
+                    <th field="id" hidden="true">ID</th>
+                    <th field="shopCode" width="100"  align="center">店铺代码</th>
+                    <th field="shopName" width="200" align="center">店铺名称</th>
+                    <th field="total" width="50" align="center">人数</th>
+                    <th field="userNames" width="200" align="center">参会人员</th>
+                </tr>
+                </thead>
+            </table>
+
+            <!-- CRUD 菜单栏 -->
+            <div id="tb">
+                <!--plain="true"去掉边框-->
+                <a href="javascript:openAddDialog()" class="easyui-linkbutton" iconCls="icon-add" plain="true">选中分配</a>
+
+                <div>
+
+                    接送站点:
+                    <select class="easyui-combobox" id="station" panelHeight="auto" >
+                        <option value="1">潮汕揭阳机场</option>
+                        <option value="2">潮汕高铁站</option>
+                        <option value="3">汕头火车站</option>
+
+                    </select>
+                    <a href="javascript:search()" class="easyui-linkbutton" iconCls="icon-search">查询</a>
+                </div>
+            </div>
+
+
+            <!-- 修改框内容 -->
+            <div id="dlg" class="easyui-dialog" style="width: 500px;height: 200px;padding: 10px 20px" closed="true" buttons="#dlg-buttons">
+                <form id="form" action="/bus-schedule/add" method="post">
+                    <table cellspacing="8px">
+                        <tr>
+                            <td>车次：</td>
+                            <td>
+                                <input id="busScheduleId" class="easyui-combobox" name="busScheduleId" method="get"
+                                       data-options="valueField:'id',textField:'name',url:'/bus-schedule/all'" required="true">
+                            </td>
+                        </tr>
+
+                    </table>
+                </form>
+            </div>
+
+            <!-- 修改对话框的 save、close 按钮 -->
+            <div id="dlg-buttons">
+                <a href="javascript:add()" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+                <a href="javascript:closeLinkDialog()" class="easyui-linkbutton" iconCls="icon-cancel">关闭</a>
+            </div>
+
+
+
+
+</body>
+
+<script th:inline="javascript">
+
+    $(function(){
+
+        $('#dg').datagrid({
+            url: "/bus-user/list",
+            queryParams: {
+                station: $('#station').combobox('getValue')
+            }
+        });
+
+    });
+
+    function search() {
+        //console.log($('#station').combobox('getValue'));
+        $('#dg').datagrid({
+
+            queryParams: {
+                station: $('#station').combobox('getValue')
+            }
+        });
+    }
+    
+    function formatBus(value){
+        return value.busNum;
+    };
+    
+    function add() {
+
+        var busScheduleId = $('#busScheduleId').combobox('getValue');
+        if (busScheduleId.length <= 0) {
+            $.messager.alert('提醒','请选择车次！');
+            return false;
+        }
+
+        var ids = [];
+        var totals = [];
+        var total = 0;//选中记录的总人数
+        var leftSeats = 0;
+        $.each($('#dg').datagrid('getChecked'), function(index, item){
+            ids.push(item.id);
+            totals.push(item.total);
+            total = total + item.total;
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "/bus-user/getLeftSeats",
+            async: false,
+            data: {
+                busScheduleId: busScheduleId
+            },
+            success: function(data){
+                leftSeats = data;
+            }
+        });
+
+        if (total > leftSeats) {
+            $.messager.alert('提醒','剩余座位不足！');
+            return false;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/bus-user/add",
+            traditional: true,
+            data: {
+                busScheduleId: $('#busScheduleId').combobox('getValue'),
+                userIds: ids,
+                totals: totals
+            },
+            success: function(data){
+                $('#dlg').dialog('close');
+                $('#dg').datagrid('reload');
+            }
+        });
+    }
+
+    function remove()  {
+        //console.log($('#dg').datagrid('getSelected').id);
+        if($('#dg').datagrid('getSelected') == null) {
+            return;
+        }
+        $.messager.confirm('Confirm', '确认删除?', function(r){
+            if (r){
+                $.ajax({
+                    type: "POST",
+                    url: "/bus-schedule/remove?id=" + $('#dg').datagrid('getSelected').id,
+                    //async: false,
+                    success: function(data){
+                        $('#dg').datagrid('reload');
+                    }
+                });
+            }
+        });
+
+    }
+    
+    function openAddDialog() {
+        $('#dlg').dialog('open');
+    }
+
+
+</script>
+</html>
