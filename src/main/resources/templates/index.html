@@ -26,12 +26,12 @@
 
 <div region="center">
     <div class="easyui-tabs" fit="true" border="false" id="tabs">
-        <div title="首页" data-options="">
+       <!-- <div title="首页" data-options="">
             <table id="dg" title="用户 CRUD 管理" class="easyui-datagrid" fitColumns="true" method="get"
                    singleSelect ="true" pagination="true" rownumbers="true" url="/bus/list" fit="true" toolbar="#tb">
                 <thead>
                 <tr>
-                   <!-- <th field="cb" checkbox="true" align="center"></th>-->
+                   &lt;!&ndash; <th field="cb" checkbox="true" align="center"></th>&ndash;&gt;
                     <th field="id" hidden="true">ID</th>
                     <th field="busNum" width="100" align="center">车牌号</th>
                     <th field="loadNum" width="200" align="center">限载人数</th>
@@ -39,15 +39,15 @@
                 </thead>
             </table>
 
-            <!-- CRUD 菜单栏 -->
+            &lt;!&ndash; CRUD 菜单栏 &ndash;&gt;
             <div id="tb">
-                <!--plain="true"去掉边框-->
+                &lt;!&ndash;plain="true"去掉边框&ndash;&gt;
                 <a href="javascript:openAddDialog()" class="easyui-linkbutton" iconCls="icon-add" plain="true">添加</a>
                 <a href="javascript:openLinkModifyDialog()" class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改</a>
                 <a href="javascript:remove()" class="easyui-linkbutton" iconCls="icon-remove" plain="true">删除</a>
             </div>
 
-            <!-- 修改框内容 -->
+            &lt;!&ndash; 修改框内容 &ndash;&gt;
             <div id="dlg" class="easyui-dialog" style="width: 500px;height: 200px;padding: 10px 20px" closed="true" buttons="#dlg-buttons">
                 <form id="form" action="/bus/add" method="post">
                     <table cellspacing="8px">
@@ -67,20 +67,22 @@
                 </form>
             </div>
 
-            <!-- 修改对话框的 save、close 按钮 -->
+            &lt;!&ndash; 修改对话框的 save、close 按钮 &ndash;&gt;
             <div id="dlg-buttons">
                 <a href="javascript:add()" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
                 <a href="javascript:closeLinkDialog()" class="easyui-linkbutton" iconCls="icon-cancel">关闭</a>
             </div>
-        </div>
+        </div>-->
     </div>
 </div>
 <div id="sm" style="width:200px"></div>
 <div region="west" style="width: 200px" title="导航菜单" split="true">
     <div style="padding-top: 10px;padding-left: 10px;">
-        <a href="javascript:openTab('排班','/bus-schedule/index')" class="easyui-linkbutton"  style="width: 150px;">排班</a>
+        <!--<a href="javascript:openTab('排班','/bus-schedule/index')" class="easyui-linkbutton"  style="width: 150px;">排班</a>
         <a href="javascript:openTab('分车','/bus-user/index')" class="easyui-linkbutton" style="width: 150px;">分车</a>
-        <a href="javascript:openTab('取消分车','/bus-user/cancel')" class="easyui-linkbutton" style="width: 150px;">取消分车</a>
+        <a href="javascript:openTab('取消分车','/bus-user/cancel')" class="easyui-linkbutton" style="width: 150px;">取消分车</a>-->
+        <a href="javascript:openTab('签到','/check-in/index')" class="easyui-linkbutton" style="width: 150px;">签到</a>
+        <a href="javascript:openTab('取消签到','/check-in/cancel')" class="easyui-linkbutton" style="width: 150px;">取消签到</a>
     </div>
 </div>
 

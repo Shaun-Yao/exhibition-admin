@@ -10,9 +10,10 @@ import java.util.List;
 @AllArgsConstructor
 public class AssignedUserVO {
 
+    private Long id;
     private Long userId;
-    private Long busUserId;
-    private String busName;
+    //private Long busUserId;
+    //private String busName;
     private String shopCode;
     private String shopName;
     private String userNames;
@@ -20,13 +21,12 @@ public class AssignedUserVO {
     private int total;
 
 
-    public AssignedUserVO(Long userId, Long busUserId, String busName, String shopCode, String shopName, int station) {
+    public AssignedUserVO(Long id, Long userId, String shopCode, String shopName) {
+        this.id = id;
         this.userId = userId;
-        this.busUserId = busUserId;
-        this.busName = busName;
         this.shopCode = shopCode;
         this.shopName = shopName;
-        this.station = station;
+        //this.station = station;
         //StationEnum.
     }
 

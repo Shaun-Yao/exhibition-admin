@@ -26,6 +26,12 @@ public class UserVO {
         //StationEnum.
     }
 
+    public UserVO(Long id, String shopCode, String shopName) {
+        this.id = id;
+        this.shopCode = shopCode;
+        this.shopName = shopName;
+    }
+
     public void initParticipants(List<Participant> participants) {
 
         this.total = participants.size();

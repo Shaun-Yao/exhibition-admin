@@ -36,7 +36,7 @@ mapper:
   not-empty: true
 
 logging:
-  file: logs/exhibition.log
+  file: logs/exhibition-admin.log
   level:
     com.honji.exhibition.admin.mapper: debug
     root: INFO
