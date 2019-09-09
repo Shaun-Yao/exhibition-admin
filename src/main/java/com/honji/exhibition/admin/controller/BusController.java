@@ -27,12 +27,26 @@ public class BusController {
     private IBusService busService;
 
 
+/*
+
     @GetMapping("/list")
     public EasyUIDataGridResult list(@RequestParam int page, @RequestParam int rows) {
         IPage<Bus> busPage = new Page<>(page, rows);
         return  new EasyUIDataGridResult(busService.page(busPage));
 
     }
+*/
+
+
+
+    @GetMapping("/list")
+    public EasyUIDataGridResult list(@RequestParam int page, @RequestParam int size
+            ) {
+        IPage<Bus> busPage = new Page<>(page, size);
+        return  new EasyUIDataGridResult(busService.page(busPage));
+
+    }
+
 
 
     @GetMapping("/all")

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Hello, Bootstrap Table!</title>
+
+    <link rel="stylesheet" href="/AdminLTE-2.4.18/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/bootstrap-table/dist/bootstrap-table.min.css">
+</head>
+<body>
+<table id="table" class="modal-body">
+    <thead>
+    <tr>
+        <th data-sortable="true" data-field="id">Item ID</th>
+        <th data-field="busNum">Item Name</th>
+        <th data-field="loadNum">Item Price</th>
+    </tr>
+    </thead>
+</table>
+<div id="toolbar" class="btn-group">
+    <button class="btn btn-success" id="add">新增</button>
+    <button class="btn btn-warning" id="edit">编辑</button>
+    <button class="btn btn-info" id="look">查看</button>
+    <button class="btn btn-danger" id="remove">删除</button>
+
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">模态框（Modal）标题</h4>
+            </div>
+            <div class="modal-body">在这里添加一些文本</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">提交更改</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!-- jQuery 3 -->
+<script src="/AdminLTE-2.4.18/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="/AdminLTE-2.4.18/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/AdminLTE-2.4.18/bower_components/bootstrap/js/dropdown.js"></script>
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" ></script>-->
+<script src="/webjars/bootstrap-table/dist/bootstrap-table.min.js"></script>
+<script src="/webjars/bootbox.js/5.1.3/dist/bootbox.min.js"></script>
+</body>
+
+
+<script th:inline="javascript">
+
+    $(function(){
+
+        $('#table').bootstrapTable({
+            url: '/bus/list',
+            pagination: true,
+            sidePagination: "server",
+            //search: true,
+            toolbar: "#toolbar",
+            showRefresh: true,
+            clickToSelect: true,
+            sortable: false,
+            smartDisplay: false,
+            pageNumber: 1,     //初始化加载第一页，默认第一页
+            pageSize: 10,      //每页的记录行数（*）
+            //pageList: [5, 10, 50, 100, 'All'] ,  // 可选的每页数据
+            //queryParamsType: '',
+            queryParams: function (params) {
+                var param = {
+
+                    limit : this.limit, // 页面大小
+                    offset : this.offset, // 页码
+                    page : this.pageNumber,
+                    size : this.pageSize
+                }
+                return param;
+            },
+            onClickRow: function (row, $element) {
+                console.log(row.id);
+            },
+            columns: [ {
+                field: '',
+                checkbox: true, // 显示一个勾选框
+                align: 'center', // 居中显示
+
+                formatter: function (value, row, index) {
+                    return row.id;
+                }
+            },{
+                field: 'id',
+                title: 'ID'
+            }, {
+                field: 'busNum',
+                title: 'busNum'
+            }, {
+                field: 'loadNum',
+                title: 'loadNum'
+            }]
+        })
+
+        $('#add').click(function () {
+            $('#myModal').modal('show');
+        });
+
+        $('#remove').click(function () {
+            // console.log($('#table').bootstrapTable('getSelections')[0].id);
+            // if($('#dg').datagrid('getSelected') == null) {
+            //     return;
+            // }
+            bootbox.confirm(" 确认报名？",
+                function(result){
+                    if(result) {
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/bus/remove?id=" + $('#table').bootstrapTable('getSelections')[0].id,
+                            //async: false,
+                            success: function(data){
+                                $('#table').bootstrapTable('refresh');
+                            }
+                        });
+                    }
+                })
+
+        });
+
+    });
+
+</script>
+</html>
