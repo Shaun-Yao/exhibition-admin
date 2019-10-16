@@ -28,6 +28,10 @@
     <!-- Google Font -->
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+    <link href="https://cdn.bootcss.com/jquery.scrollbar/0.2.11/jquery.scrollbar.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/nth-tabs/css/nth-tabs.min.css">
+    <link rel="stylesheet" href="/nth-tabs/css/nth-icons.min.css">
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -59,14 +63,14 @@
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <!-- The user image in the navbar-->
-                            <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                            <img src="" class="user-image" alt="User Image">
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
                             <span class="hidden-xs">Alexander Pierce</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                <img src="" class="img-circle" alt="User Image">
 
                                 <p>
                                     Alexander Pierce - Web Developer
@@ -115,7 +119,7 @@
                 <li class="header">HEADER</li>
                 <!-- Optionally, you can add icons to the links -->
                 <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
-                <li onclick="openTab('another', 'another', '/admin/another')"><a href="#"><i class="fa fa-link" ></i> <span>Another Link</span></a></li>
+                <li onclick="openTab('shop', '店铺管理', '/admin/shop')"><a href="#"><i class="fa fa-link" ></i> <span>Another Link</span></a></li>
                 <li class="treeview">
                     <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
                         <span class="pull-right-container">
@@ -135,10 +139,11 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <ul class="nav nav-tabs" role="tablist">
+       <!-- <ul class="nav nav-tabs" role="tablist">
         </ul>
         <div class="tab-content" style="width:100%;">
-        </div>
+        </div>-->
+        <div class="nth-tabs" id="custom-id" style="height: 1200px;"></div>
     </div>
     <!-- /.content-wrapper -->
 
@@ -167,25 +172,42 @@
 <script src="/AdminLTE-2.4.18/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
 <script src="/AdminLTE-2.4.18/dist/js/adminlte.min.js"></script>
-<script src="/closable-tab-div.js"></script>
-
+<script src="/AdminLTE-2.4.18/bower_components/bootstrap/js/dropdown.js"></script>
+<!--<script src="/closable-tab-div.js"></script>-->
+<script src="https://cdn.bootcss.com/jquery.scrollbar/0.2.11/jquery.scrollbar.min.js"></script>
+<script src="/nth-tabs/js/nth-tabs.min.js"></script>
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. -->
 </body>
 <script th:inline="javascript">
+    var nthTabs = $("#custom-id").nthTabs();
     $(function(){
 
-        var item = {'id':'home','name':'首页','url':'/admin/table','closable':false};
+        /*var item = {'id':'home','name':'首页','url':'/admin/table','closable':false};
         //var item = {'id':'home','name':'首页','url':'/admin/toLogin'};
-        closableTab.addTab(item);
+        closableTab.addTab(item);*/
+
+        nthTabs.addTab({
+            id: 'home',
+            title: '首页',
+            url: '/admin/shop',
+            allowClose: false
+        });
+
 
     });
 
-    function openTab(id, name, url) {
-        var item = {'id':id,'name':name,'url':url,'closable':true};
-        closableTab.addTab(item);
+    function openTab(id, title, url) {
+        // var item = {'id':id,'name':name,'url':url,'closable':true};
+        // closableTab.addTab(item);
+        nthTabs.addTab({
+            id: 'id',
+            title: title,
+            url: url,
+            allowClose: true
+        });
     }
 </script>
 </html>

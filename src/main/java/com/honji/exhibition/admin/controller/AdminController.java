@@ -58,6 +58,11 @@ public class AdminController {
         return "another";
     }
 
+    @GetMapping("/shop")
+    public String main() {
+
+        return "shop";
+    }
 
     @PostMapping("/login")
     public String login(@RequestParam String account, @RequestParam String password, Model model) {

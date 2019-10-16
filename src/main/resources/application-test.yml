@@ -30,11 +30,6 @@ mybatis-plus:
       default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
 
 
-mapper:
-  mappers:
-  - tk.mybatis.mapper.common.Mapper
-  not-empty: true
-
 logging:
 
   file: logs/exhibition-admin.log
