@@ -18,9 +18,15 @@
     </tr>
     </thead>
 </table>
-<div id="shop" class="btn-group">
-    <button class="btn btn-success" id="add">新增</button>
-    <button class="btn btn-danger" id="remove">删除</button>
+<div id="shop" >
+        <button type="button" class="btn btn-success" id="add">新增</button>
+        <button type="button" class="btn btn-danger" id="remove">删除</button>
+   <!-- <div class="float-right search btn-group">
+        <input class="form-control
+        search-input" type="text" placeholder="Search">
+
+    </div>
+    <button type="button" id="search" class="btn btn-primary">查询</button>-->
 
 </div>
 
@@ -122,7 +128,10 @@
             url: '/shop/list',
             pagination: true,
             sidePagination: "server",
-            //search: true,
+            search: true,
+            searchOnEnterKey: true,
+            showSearchButton: true,
+            //striped: true,
             toolbar: "#shop",
             showRefresh: true,
             clickToSelect: true,
@@ -138,7 +147,8 @@
                     limit : this.limit, // 页面大小
                     offset : this.offset, // 页码
                     page : this.pageNumber,
-                    size : this.pageSize
+                    size : this.pageSize,
+                    code: this.searchText
                 }
                 return param;
             },
@@ -178,7 +188,8 @@
                 }
             },{
                 field: 'id',
-                title: 'ID'
+                title: 'ID',
+                visible: false
             }, {
                 field: 'code',
                 title: 'code'
@@ -222,13 +233,22 @@
             // if($('#dg').datagrid('getSelected') == null) {
             //     return;
             // }
+            var ids = [];
+            $.each($('#table').bootstrapTable('getSelections'), function(index, item){
+                //console.log(item.id);
+                ids.push(item.id);
+            });
             bootbox.confirm(" 确认删除？",
                 function(result){
                     if(result) {
                         $.ajax({
                             type: "POST",
-                            url: "/shop/remove?id=" + $('#table').bootstrapTable('getSelections')[0].id,
+                            url: "/shop/remove",
+                            traditional: true,
                             //async: false,
+                            data: {
+                                ids: ids
+                            },
                             success: function(data){
                                 $('#table').bootstrapTable('refresh');
                             }
