@@ -20,12 +20,12 @@ spring:
     mode: HTML
 
 mybatis:
-  type-aliases-package: com.honji.exhibition
+  type-aliases-package: com.honji.exhibition.admin
 
 
 mybatis-plus:
     # 支持统配符 * 或者 ; 分割
-    typeEnumsPackage: com.honji.exhibition.enums
+    typeEnumsPackage: com.honji.exhibition.admin.enums
     configuration:
       default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
 

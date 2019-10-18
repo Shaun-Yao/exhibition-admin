@@ -30,7 +30,6 @@ mybatis-plus:
       default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
 
 
-
 logging:
   file: logs/exhibition-admin.log
   level:
