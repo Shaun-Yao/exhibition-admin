@@ -1,5 +1,6 @@
 package com.honji.exhibition.admin.entity;
 
+import com.honji.exhibition.admin.enums.ShopTypeEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -27,7 +28,7 @@ public class Shop extends IdEntity {
     private String smallArea;
 
 
-    private String type;
+    private ShopTypeEnum type;
     private String situation;
     private String mode;
 }

@@ -1,7 +1,6 @@
 package com.honji.exhibition.admin.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum ShopTypeEnum {
 
@@ -19,11 +18,12 @@ public enum ShopTypeEnum {
     private final int code;
     private final String desc;
 
+
     public int getCode() {
         return code;
     }
 
-    @JsonValue
+    //@JsonValue
     public String getDesc() {
         return desc;
     }

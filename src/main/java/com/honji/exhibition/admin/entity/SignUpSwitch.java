@@ -21,7 +21,7 @@ import lombok.experimental.Accessors;
 public class SignUpSwitch extends IdEntity {
 
 
-    private ShopTypeEnum type;
+    private ShopTypeEnum shopType;
 
     private boolean onOff;
 

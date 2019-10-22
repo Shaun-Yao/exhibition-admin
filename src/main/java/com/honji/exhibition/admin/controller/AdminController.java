@@ -3,12 +3,20 @@ package com.honji.exhibition.admin.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.honji.exhibition.admin.entity.Admin;
+import com.honji.exhibition.admin.entity.ScheduleTimeConfig;
+import com.honji.exhibition.admin.entity.SignUpSwitch;
 import com.honji.exhibition.admin.service.IAdminService;
+import com.honji.exhibition.admin.service.IScheduleTimeConfigService;
+import com.honji.exhibition.admin.service.ISignUpSwitchService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 /**
  * <p>
@@ -24,6 +32,21 @@ public class AdminController {
 
     @Autowired
     private IAdminService adminService;
+
+    @Autowired
+    private ISignUpSwitchService signUpSwitchService;
+
+    @Autowired
+    private IScheduleTimeConfigService scheduleTimeConfigService;
+
+    @GetMapping("/config")
+    public String config(Model model) {
+        List<SignUpSwitch> switches = signUpSwitchService.list();
+        List<ScheduleTimeConfig> timeConfigs = scheduleTimeConfigService.list();
+        model.addAttribute("switches", switches);
+        model.addAttribute("timeConfigs", timeConfigs);
+        return "config";
+    }
 
     @GetMapping("/toLogin")
     public String toLogin() {

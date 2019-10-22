@@ -12,9 +12,21 @@
 
 <div th:each="switch : ${switches}">
     <p>
-        <span th:text="${switch.type.desc}"></span>
+        <span th:text="${switch.shopType.desc}"></span>
         <input type="checkbox" th:class="${switch.id}" name="my-checkbox" th:checked="${switch.onOff}">
     </p>
+</div>
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            往返时间设置
+        </h3>
+    </div>
+    <div class="panel-body">
+
+    </div>
+
 </div>
 
 <!-- jQuery 3 -->
