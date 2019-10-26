@@ -2,14 +2,13 @@ package com.honji.exhibition.admin.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 
-public enum ShopTypeEnum {
+public enum ShopSituationEnum {
 
 
-    ZHI_YING("Z", "直营"),
-    DAI_LI("D", "代理加盟"),
-    LIAN_YING("L", "联营");
+    ZHI_YING("Z", "正常营业"),
+    DAI_LI("D", "异常店铺");
 
-    ShopTypeEnum(String code, String desc) {
+    ShopSituationEnum(String code, String desc) {
         this.code = code;
         this.desc = desc;
     }

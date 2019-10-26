@@ -82,9 +82,13 @@ public class AdminController {
     }
 
     @GetMapping("/shop")
-    public String main() {
-
+    public String shop() {
         return "shop";
+    }
+
+    @GetMapping("/participant")
+    public String participant() {
+        return "participant";
     }
 
     @PostMapping("/login")

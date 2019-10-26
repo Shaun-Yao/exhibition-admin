@@ -22,7 +22,7 @@ public enum SexEnum {
     }
 
     @JsonValue
-    public String getdesc() {
+    public String getDesc() {
         return desc;
     }
 
