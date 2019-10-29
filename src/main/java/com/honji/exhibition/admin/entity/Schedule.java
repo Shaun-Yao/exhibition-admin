@@ -1,5 +1,6 @@
 package com.honji.exhibition.admin.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.honji.exhibition.admin.enums.LeavePickUpLocationEnum;
 import com.honji.exhibition.admin.enums.LeaveStationEnum;
 import com.honji.exhibition.admin.enums.StationEnum;
@@ -48,9 +49,11 @@ public class Schedule extends BaseEntity {
     private String leavedNum;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime arrivedTime;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime leavedTime;
 
     /**

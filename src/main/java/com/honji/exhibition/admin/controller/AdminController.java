@@ -91,6 +91,11 @@ public class AdminController {
         return "participant";
     }
 
+    @GetMapping("/schedule")
+    public String schedule() {
+        return "schedule";
+    }
+
     @PostMapping("/login")
     public String login(@RequestParam String account, @RequestParam String password, Model model) {
         QueryWrapper<Admin> queryWrapper = new QueryWrapper<>();
