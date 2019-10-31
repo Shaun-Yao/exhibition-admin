@@ -3,9 +3,12 @@ package com.honji.exhibition.admin.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.honji.exhibition.admin.entity.Admin;
+import com.honji.exhibition.admin.entity.Participant;
 import com.honji.exhibition.admin.entity.ScheduleTimeConfig;
 import com.honji.exhibition.admin.entity.SignUpSwitch;
+import com.honji.exhibition.admin.enums.SexEnum;
 import com.honji.exhibition.admin.service.IAdminService;
+import com.honji.exhibition.admin.service.IParticipantService;
 import com.honji.exhibition.admin.service.IScheduleTimeConfigService;
 import com.honji.exhibition.admin.service.ISignUpSwitchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +41,9 @@ public class AdminController {
 
     @Autowired
     private IScheduleTimeConfigService scheduleTimeConfigService;
+
+    @Autowired
+    private IParticipantService participantService;
 
     @GetMapping("/config")
     public String config(Model model) {
@@ -94,6 +100,17 @@ public class AdminController {
     @GetMapping("/schedule")
     public String schedule() {
         return "schedule";
+    }
+
+    @GetMapping("/room")
+    public String room(Model model) {
+        List<Participant> participants = participantService.list();
+        QueryWrapper<Participant> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("sex", SexEnum.CHILD);
+        List<Participant> children = participantService.list(queryWrapper);
+        model.addAttribute("participants", participants);
+        model.addAttribute("children", children);
+        return "room";
     }
 
     @PostMapping("/login")

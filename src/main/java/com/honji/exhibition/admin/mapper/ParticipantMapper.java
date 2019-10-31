@@ -21,11 +21,11 @@ public interface ParticipantMapper extends BaseMapper<Participant> {
             " AND id not in (SELECT participant_id FROM room_participant)")
     List<Participant> selectByArea(Long userId);
 
-    @Select("SELECT *  FROM participant WHERE user_id IN (SELECT id FROM `user` " +
-            " WHERE shop_id IN ( SELECT id FROM shop WHERE area IN ( SELECT area FROM shop WHERE id = ( SELECT shop_id FROM `user` WHERE id = #{userId} ) ) ))" +
-            " AND sex = 3" +
-            " AND id not in (SELECT participant_id FROM room_participant)")
-    List<Participant> selectChildren(Long userId);
+    @Select("SELECT * FROM participant WHERE id not in (SELECT participant_id FROM room_participant)")
+    List<Participant> selectLeft();
+
+    @Select("SELECT * FROM participant WHERE sex = 3 and id not in (SELECT participant_id FROM room_participant)")
+    List<Participant> selectChildren();
 
     @Select("SELECT * FROM participant WHERE id in " +
             "(SELECT participant_id FROM room_participant WHERE room_id = #{roomId} ORDER BY id)")

@@ -18,7 +18,9 @@ public interface IParticipantService extends IService<Participant> {
 
     List<Participant> getByArea(Long userId);
 
-    List<Participant> getChildren(Long userId);
+    List<Participant> getLeft();
+
+    List<Participant> getChildren();
 
     List<Participant> listByRoom(Long roomId);
 }

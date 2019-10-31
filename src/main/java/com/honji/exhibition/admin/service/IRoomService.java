@@ -16,5 +16,5 @@ public interface IRoomService extends IService<Room> {
 
     void add(Room room);
     void merge(Room room);
-    void delete(Long id);
+    void delete(String[] ids);
 }

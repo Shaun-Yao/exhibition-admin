@@ -252,6 +252,9 @@
                                 success: function(data){
                                     $('#myModal').modal('hide');
                                     $('#table').bootstrapTable('refresh');
+                                },
+                                error: function(data){
+                                    alert("行程已经存在！");
                                 }
                             });
                         }

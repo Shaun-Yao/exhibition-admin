@@ -73,10 +73,13 @@ public class RoomServiceImpl extends ServiceImpl<RoomMapper, Room> implements IR
 
     @Override
     @Transactional
-    public void delete(Long id) {
-        QueryWrapper<RoomParticipant> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("room_id", id);
-        roomParticipantMapper.delete(queryWrapper);
-        roomMapper.deleteById(id);
+    public void delete(String[] ids) {
+        for (String id : ids) {
+            QueryWrapper<RoomParticipant> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("room_id", id);
+            roomParticipantMapper.delete(queryWrapper);
+            roomMapper.deleteById(id);
+        }
+
     }
 }
