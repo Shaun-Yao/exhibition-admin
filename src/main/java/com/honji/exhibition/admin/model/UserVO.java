@@ -14,9 +14,10 @@ public class UserVO {
     private String shopCode;
     private String shopName;
     private String userNames;
-    private int station;
+    //private int station;
     private int total;
 
+/*
 
     public UserVO(Long id, String shopCode, String shopName, int station) {
         this.id = id;
@@ -25,6 +26,7 @@ public class UserVO {
         this.station = station;
         //StationEnum.
     }
+*/
 
     public UserVO(Long id, String shopCode, String shopName) {
         this.id = id;

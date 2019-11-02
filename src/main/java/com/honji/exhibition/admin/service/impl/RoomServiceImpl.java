@@ -8,6 +8,7 @@ import com.honji.exhibition.admin.entity.Room;
 import com.honji.exhibition.admin.entity.RoomParticipant;
 import com.honji.exhibition.admin.mapper.RoomMapper;
 import com.honji.exhibition.admin.mapper.RoomParticipantMapper;
+import com.honji.exhibition.admin.model.OccupiedRoomVO;
 import com.honji.exhibition.admin.service.IRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -81,5 +82,10 @@ public class RoomServiceImpl extends ServiceImpl<RoomMapper, Room> implements IR
             roomMapper.deleteById(id);
         }
 
+    }
+
+    @Override
+    public OccupiedRoomVO getOccupiedRoom(Long userId) {
+        return roomMapper.selectOccupiedRoom(userId);
     }
 }

@@ -94,6 +94,7 @@ public class BusUserController {
         return  new EasyUIDataGridResult(userPage.getTotal(), userVOS);
     }
 
+
     @ResponseBody
     @PostMapping("add")
     public boolean add(@RequestParam Long busScheduleId, @RequestParam String[] userIds, @RequestParam String[] totals) {

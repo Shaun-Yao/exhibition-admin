@@ -102,6 +102,11 @@ public class AdminController {
         return "schedule";
     }
 
+    @GetMapping("/user")
+    public String user() {
+        return "user";
+    }
+
     @GetMapping("/room")
     public String room(Model model) {
         List<Participant> participants = participantService.list();

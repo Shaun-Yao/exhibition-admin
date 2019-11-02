@@ -8,6 +8,7 @@ import com.honji.exhibition.admin.entity.Participant;
 import com.honji.exhibition.admin.entity.Room;
 import com.honji.exhibition.admin.entity.RoomParticipant;
 import com.honji.exhibition.admin.model.EasyUIDataGridResult;
+import com.honji.exhibition.admin.model.OccupiedRoomVO;
 import com.honji.exhibition.admin.model.RoomVO;
 import com.honji.exhibition.admin.service.IParticipantService;
 import com.honji.exhibition.admin.service.IRoomParticipantService;
@@ -99,5 +100,15 @@ public class RoomController {
         roomService.delete(ids);
     }
 
+    /**
+     * 查找要删除的用户被其它用户选择为同住人的房间信息
+     * @param userId
+     * @return
+     */
+    @GetMapping("/hasRoom")
+    public OccupiedRoomVO hasRoom(@RequestParam Long userId) {
+        return roomService.getOccupiedRoom(userId);
+
+    }
 
 }
