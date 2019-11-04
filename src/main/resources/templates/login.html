@@ -2,13 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <script src="/webjars/github-com-novaeye-jquery-easyui-bower/1.5.0.1/jquery.min.js"></script>
-    <script src="/webjars/github-com-novaeye-jquery-easyui-bower/1.5.0.1/jquery.easyui.min.js"></script>
-    <link rel="stylesheet" href="/webjars/github-com-novaeye-jquery-easyui-bower/1.5.0.1/themes/default/easyui.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Hello, Bootstrap Table!</title>
 
+    <link rel="stylesheet" href="/AdminLTE-2.4.18/bower_components/bootstrap/dist/css/bootstrap.min.css">
 </head>
 <body>
+<!--
+
 <div class="easyui-panel" title="登录" style="width:400px">
     <div style="padding:10px 60px 20px 60px">
         <form id="ff" th:action="@{login}" method="post">
@@ -36,21 +37,67 @@
     </div>
 </div>
 
+-->
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">登录</h3>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal" id="form" role="form" action="/user/add" method="post">
+            <div class="form-group">
+                <label for="account" class="col-sm-2 control-label">账号</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="account" name="account" required >
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password" class="col-sm-2 control-label">密码</label>
+                <div class="col-sm-9">
+                    <input type="password" class="form-control" id="password" name="password" required >
+                </div>
+            </div>
+
+            <div class="col-md-4 text-center">
+                <button type="button" class="btn btn-primary btn-lg" id="login">保存</button>
+                <button type="button" onclick="goBack()" class="btn btn-info btn-lg">取消</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- jQuery 3 -->
+<script src="/AdminLTE-2.4.18/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="/AdminLTE-2.4.18/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"></script>
+
 </body>
 <script th:inline="javascript">
-    function submitForm(){
-        $('#ff').form('submit',{
-            onSubmit:function(){
-                //console.log($(this).form('enableValidation').form('validate'));
-                //return $(this).form('enableValidation').form('validate');
-                if($(this).form('enableValidation').form('validate')) {
-                    $('#ff').submit();
-                }
+    
+    $(function () {
+        $('#login').click(function() {
+            if($('#form')[0].reportValidity()) {
+                $.ajax({
+                    type: "post",
+                    url: "/admin/login",
+                    data: $('#form').serialize(),
+                    success: function(result){
+                        console.log(result);
+                        if (result) {
+                            location.href = "/admin/layout";
+                            return;
+                        }
 
+                        alert("账号或密码错误！");
+                    },
+                    error: function(data){
+                        alert("操作失败！");
+                    }
+                });
             }
         });
+    });
 
-    }
     function clearForm(){
         $('#ff').form('clear');
     }

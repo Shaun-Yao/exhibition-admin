@@ -14,11 +14,9 @@ import com.honji.exhibition.admin.service.ISignUpSwitchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -44,6 +42,9 @@ public class AdminController {
 
     @Autowired
     private IParticipantService participantService;
+
+    @Autowired
+    private HttpSession session;
 
     @GetMapping("/config")
     public String config(Model model) {
@@ -118,18 +119,21 @@ public class AdminController {
         return "room";
     }
 
+    @ResponseBody
     @PostMapping("/login")
-    public String login(@RequestParam String account, @RequestParam String password, Model model) {
+    public boolean login(@RequestParam String account, @RequestParam String password) {
         QueryWrapper<Admin> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("account", account);
         Admin admin = adminService.getOne(queryWrapper);
         if (admin != null) {
+            System.out.println(2222);
             if (password.equals(admin.getPassword())) {
-                return "index";
+                session.setAttribute("admin", admin);
+                System.out.println(3333);
+                return true;
             }
         }
 
-        model.addAttribute("wrong", true);
-        return "login";
+        return false;
     }
 }
