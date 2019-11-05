@@ -53,8 +53,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
 
     @Override
-    public List<UserVO> getUsers(Page<UserVO> page, String shopCode) {
-        return userMapper.selectUsers(page, shopCode);
+    public List<UserVO> getUsers(Page<UserVO> page, String shopType, String shopCode) {
+        return userMapper.selectUsers(page, shopType, shopCode);
     }
 
 

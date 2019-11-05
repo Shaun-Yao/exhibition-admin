@@ -1,6 +1,8 @@
 package com.honji.exhibition.admin.service.impl;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.honji.exhibition.admin.entity.Participant;
 import com.honji.exhibition.admin.mapper.ParticipantMapper;
@@ -23,6 +25,11 @@ public class ParticipantServiceImpl extends ServiceImpl<ParticipantMapper, Parti
 
     @Autowired
     private ParticipantMapper participantMapper;
+
+    @Override
+    public IPage<Participant> getForIndex(Page<Participant> page, String shopType, String name) {
+        return participantMapper.selectForIndex(page, shopType, name);
+    }
 
     @Override
     public List<Participant> getByArea(Long userId) {

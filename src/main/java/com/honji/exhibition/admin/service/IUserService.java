@@ -20,7 +20,7 @@ public interface IUserService extends IService<User> {
 
     void insert(User user);
 
-    List<UserVO> getUsers(Page<UserVO> page, String shopCode);
+    List<UserVO> getUsers(Page<UserVO> page, String shopType, String shopCode);
 
     void delete(Long id);
 }

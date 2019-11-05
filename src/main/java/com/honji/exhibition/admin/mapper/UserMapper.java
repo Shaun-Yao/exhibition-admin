@@ -15,7 +15,18 @@ public interface UserMapper extends BaseMapper<User> {
 //    void insert(User user);
 
 
-    @Select("SELECT `user`.id as id, shop.`code` as shopCode, shop.`name` as shopName FROM `user` " +
-            "LEFT JOIN shop on `user`.shop_id = shop.id WHERE shop.code like CONCAT('%', #{shopCode}, '%')")
-    List<UserVO> selectUsers(Page<UserVO> page, @Param("shopCode") String shopCode);
+    @Select({"<script>",
+            "SELECT `user`.id as id, shop.`code` as shopCode, shop.`name` as shopName FROM `user` ",
+            "LEFT JOIN shop on `user`.shop_id = shop.id ",
+            "WHERE 1=1 ",
+            "<if test='shopType!=null and shopType!=\"\"'>",
+            "AND shop.type = #{shopType} ",
+            "</if>",
+            "<if test='shopCode!=null and shopCode!=\"\"'>",
+            "AND shop.code like CONCAT('%', #{shopCode}, '%')",
+            "</if>",
+            "</script>"})
+//    @Select("SELECT `user`.id as id, shop.`code` as shopCode, shop.`name` as shopName FROM `user` " +
+//            "LEFT JOIN shop on `user`.shop_id = shop.id WHERE 1 = 1 shop.code like CONCAT('%', #{shopCode}, '%')")
+    List<UserVO> selectUsers(Page<UserVO> page, @Param("shopType") String shopType, @Param("shopCode") String shopCode);
 }

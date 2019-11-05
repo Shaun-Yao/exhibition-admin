@@ -22,5 +22,5 @@ public class Admin extends IdEntity {
 
     private String password;
 
-
+    private String type;
 }

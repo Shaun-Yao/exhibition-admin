@@ -3,6 +3,7 @@ package com.honji.exhibition.admin.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.honji.exhibition.admin.entity.Admin;
 import com.honji.exhibition.admin.entity.Participant;
 import com.honji.exhibition.admin.entity.User;
 import com.honji.exhibition.admin.model.EasyUIDataGridResult;
@@ -12,6 +13,7 @@ import com.honji.exhibition.admin.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -32,6 +34,8 @@ public class UserController {
     @Autowired
     private IParticipantService participantService;
 
+    @Autowired
+    private HttpSession session;
 
     @GetMapping("/get")
     public User get(@RequestParam Long id) {
@@ -40,15 +44,11 @@ public class UserController {
 
 
     @GetMapping("/list")
-    public EasyUIDataGridResult list(@RequestParam int page, @RequestParam int size,
-                                     @RequestParam String shopCode) {
-//        IPage<User> userPage = new Page<>(page, size);
-//        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-//        queryWrapper.like("name", name);
-//        return new EasyUIDataGridResult(userService.page(userPage, queryWrapper));
+    public EasyUIDataGridResult list(@RequestParam int page, @RequestParam int size,@RequestParam String shopCode) {
 
+        Admin admin = (Admin) session.getAttribute("admin");
         Page<UserVO> userPage = new Page<>(page, size);
-        List<UserVO> userVOS = userService.getUsers(userPage, shopCode);
+        List<UserVO> userVOS = userService.getUsers(userPage, admin.getType(), shopCode);
         userPage.setRecords(userVOS);
         for (UserVO user : userVOS) {
             Long userId = user.getId();

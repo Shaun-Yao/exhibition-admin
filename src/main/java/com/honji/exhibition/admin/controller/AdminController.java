@@ -126,10 +126,8 @@ public class AdminController {
         queryWrapper.eq("account", account);
         Admin admin = adminService.getOne(queryWrapper);
         if (admin != null) {
-            System.out.println(2222);
             if (password.equals(admin.getPassword())) {
                 session.setAttribute("admin", admin);
-                System.out.println(3333);
                 return true;
             }
         }

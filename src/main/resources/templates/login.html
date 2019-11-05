@@ -58,8 +58,8 @@
             </div>
 
             <div class="col-md-4 text-center">
-                <button type="button" class="btn btn-primary btn-lg" id="login">保存</button>
-                <button type="button" onclick="goBack()" class="btn btn-info btn-lg">取消</button>
+                <button type="button" class="btn btn-primary btn-lg" id="login">登录</button>
+                <button type="button"  class="btn btn-info btn-lg" id="resetBtn">重置</button>
             </div>
         </form>
     </div>
@@ -82,7 +82,7 @@
                     url: "/admin/login",
                     data: $('#form').serialize(),
                     success: function(result){
-                        console.log(result);
+
                         if (result) {
                             location.href = "/admin/layout";
                             return;
@@ -95,6 +95,10 @@
                     }
                 });
             }
+        });
+
+        $('#resetBtn').click(function() {
+            $('#form').resetForm();
         });
     });
 
