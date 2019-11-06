@@ -14,6 +14,7 @@ import com.honji.exhibition.admin.service.ISignUpSwitchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -48,8 +49,17 @@ public class AdminController {
 
     @GetMapping("/config")
     public String config(Model model) {
-        List<SignUpSwitch> switches = signUpSwitchService.list();
-        List<ScheduleTimeConfig> timeConfigs = scheduleTimeConfigService.list();
+        Admin admin = (Admin) session.getAttribute("admin");
+        String type = admin.getType();
+        QueryWrapper<SignUpSwitch> signUpSwitchQueryWrapper = new QueryWrapper();
+        QueryWrapper<ScheduleTimeConfig> scheduleTimeConfigQueryWrapper = new QueryWrapper();
+        if (!StringUtils.isEmpty(type)) {
+            signUpSwitchQueryWrapper.eq("shop_type", admin.getType());
+            scheduleTimeConfigQueryWrapper.eq("shop_type", admin.getType());
+        }
+
+        List<SignUpSwitch> switches = signUpSwitchService.list(signUpSwitchQueryWrapper);
+        List<ScheduleTimeConfig> timeConfigs = scheduleTimeConfigService.list(scheduleTimeConfigQueryWrapper);
         model.addAttribute("switches", switches);
         model.addAttribute("timeConfigs", timeConfigs);
         return "config";

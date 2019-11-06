@@ -27,7 +27,7 @@ public interface ScheduleMapper extends BaseMapper<Schedule> {
             "AND shop.type = #{shopType} ",
             "</if>",
             "<if test='userId!=null and userId!=\"\"'>",
-            "AND schedule.userId like CONCAT('%', #{userId}, '%')",
+            "AND schedule.user_id like CONCAT('%', #{userId}, '%')",
             "</if>",
             "</script>"})
     IPage<Schedule> selectForIndex(IPage<Schedule> page, @Param("shopType") String shopType, @Param("userId") String userId);

@@ -2,6 +2,7 @@ package com.honji.exhibition.admin.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.honji.exhibition.admin.entity.Participant;
 import com.honji.exhibition.admin.entity.Room;
@@ -9,6 +10,7 @@ import com.honji.exhibition.admin.entity.RoomParticipant;
 import com.honji.exhibition.admin.mapper.RoomMapper;
 import com.honji.exhibition.admin.mapper.RoomParticipantMapper;
 import com.honji.exhibition.admin.model.OccupiedRoomVO;
+import com.honji.exhibition.admin.model.RoomVO;
 import com.honji.exhibition.admin.service.IRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -87,5 +89,10 @@ public class RoomServiceImpl extends ServiceImpl<RoomMapper, Room> implements IR
     @Override
     public OccupiedRoomVO getOccupiedRoom(Long userId) {
         return roomMapper.selectOccupiedRoom(userId);
+    }
+
+    @Override
+    public IPage<RoomVO> getForIndex(IPage<RoomVO> page, String shopType, String userId) {
+        return roomMapper.selectForIndex(page, shopType, userId);
     }
 }

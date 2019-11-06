@@ -23,6 +23,14 @@ public class RoomVO {
         this.type = type;
     }
 
+
+    public RoomVO(Long id, Long userId, RoomTypeEnum type, String userNames) {
+        this.id = id;
+        this.userId = userId;
+        this.type = type;
+        this.userNames = userNames;
+    }
+
     public void parse(List<Participant> participants) {
 
         //this.total = participants.size();
