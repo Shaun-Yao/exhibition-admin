@@ -144,4 +144,12 @@ public class AdminController {
 
         return false;
     }
+
+    @ResponseBody
+    @PostMapping("/logout")
+    public void logout() {
+        session.removeAttribute("admin");
+
+    }
+
 }

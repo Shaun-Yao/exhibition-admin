@@ -62,43 +62,17 @@
                     <li class="dropdown user user-menu">
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <!-- The user image in the navbar-->
-                            <img src="" class="user-image" alt="User Image">
+
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                            <span class="hidden-xs">Alexander Pierce</span>
+                            <span class="hidden-xs" th:text="${session.admin.account}">Alexander Pierce</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <!-- The user image in the menu -->
-                            <li class="user-header">
-                                <img src="" class="img-circle" alt="User Image">
 
-                                <p>
-                                    Alexander Pierce - Web Developer
-                                    <small>Member since Nov. 2012</small>
-                                </p>
-                            </li>
-                            <!-- Menu Body -->
-                            <li class="user-body">
-                                <div class="row">
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Followers</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Sales</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Friends</a>
-                                    </div>
-                                </div>
-                                <!-- /.row -->
-                            </li>
                             <!-- Menu Footer-->
                             <li class="user-footer">
+
                                 <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">Profile</a>
-                                </div>
-                                <div class="pull-right">
-                                    <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                    <a href="#" onclick="logout()" class="btn btn-default btn-flat">退出登录</a>
                                 </div>
                             </li>
                         </ul>
@@ -124,10 +98,10 @@
                 <li onclick="openTab('participant', '参与人管理', '/admin/participant')">
                     <a href="#"><i class="fa fa-link" ></i> <span>参与人管理</span></a>
                 </li>
-                <li onclick="openTab('participant', '行程管理', '/admin/schedule')">
+                <li onclick="openTab('schedule', '行程管理', '/admin/schedule')">
                     <a href="#"><i class="fa fa-link" ></i> <span>行程管理</span></a>
                 </li>
-                <li onclick="openTab('participant', '同住人管理', '/admin/room')">
+                <li onclick="openTab('room', '同住人管理', '/admin/room')">
                     <a href="#"><i class="fa fa-link" ></i> <span>同住人管理</span></a>
                 </li>
                 <li onclick="openTab('config', '系统设置', '/admin/config')">
@@ -174,7 +148,6 @@
 <script src="/AdminLTE-2.4.18/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
 <script src="/AdminLTE-2.4.18/dist/js/adminlte.min.js"></script>
-<script src="/AdminLTE-2.4.18/bower_components/bootstrap/js/dropdown.js"></script>
 <!--<script src="/closable-tab-div.js"></script>-->
 <script src="/nth-tabs/js/jquery.scrollbar.min.js"></script>
 <script src="/nth-tabs/js/nth-tabs.min.js"></script>
@@ -220,11 +193,22 @@
         // var item = {'id':id,'name':name,'url':url,'closable':true};
         // closableTab.addTab(item);
         nthTabs.addTab({
-            id: 'id',
+            id: id,
             title: title,
             url: url,
             active: true,
             allowClose: true
+        });
+    }
+    
+    function logout() {
+        //console.log(222);
+        $.ajax({
+            type: "POST",
+            url: "/admin/logout",
+            success: function(data){
+                location.href = "/admin/toLogin";
+            }
         });
     }
 </script>
