@@ -1,11 +1,11 @@
 server:
-  port: 8000
+  port: 8001
   servlet:
     multipart:
       max-file-size: 3MB
       max-request-size: 10MB
     session:
-      timeout: 1h
+      timeout: 4h
 
 spring:
   datasource:

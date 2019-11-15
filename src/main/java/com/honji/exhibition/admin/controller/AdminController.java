@@ -78,10 +78,10 @@ public class AdminController {
     }
 
 
-    @GetMapping("/layout")
+    @GetMapping("/index")
     public String layout() {
 
-        return "layout";
+        return "index";
     }
 
 

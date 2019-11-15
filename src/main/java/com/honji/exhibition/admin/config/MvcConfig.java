@@ -19,7 +19,7 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(sessionTimeoutInterceptor)
                 .excludePathPatterns("/AdminLTE-2.4.18/**", "/nth-tabs/**")
                 .excludePathPatterns("/webjars/**")
-                .excludePathPatterns("/admin/toLogin", "/admin/login");
+                .excludePathPatterns("/admin/login");
     }
 
 }

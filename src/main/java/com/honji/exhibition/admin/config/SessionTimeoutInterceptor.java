@@ -23,10 +23,18 @@ public class SessionTimeoutInterceptor extends HandlerInterceptorAdapter {
         HttpSession session = request.getSession();
         Object admin = session.getAttribute("admin");
 
-        if (admin != null) {
-            //TODO 校验用户是否存在？
+        if ("/admin/toLogin".equals(request.getRequestURI())) {
+            if (admin != null) { //已经登录转到首页
+                response.sendRedirect("/admin/index");
+            }
             return true;
         }
+
+        if (admin != null) {
+
+            return true;
+        }
+
         response.sendRedirect("/admin/toLogin");
 
         return false;

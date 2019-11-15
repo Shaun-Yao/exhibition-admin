@@ -5,7 +5,7 @@ server:
       max-file-size: 3MB
       max-request-size: 10MB
     session:
-      timeout: 1h
+      timeout: 4h
 
 spring:
   datasource:

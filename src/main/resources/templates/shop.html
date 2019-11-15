@@ -109,6 +109,7 @@
 
 <script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"></script>
 <script src="/webjars/bootstrap-table/dist/bootstrap-table.min.js"></script>
+<script src="/webjars/bootstrap-table/dist/locale/bootstrap-table-zh-CN.min.js"></script>
 <script src="/webjars/bootbox.js/5.1.3/dist/bootbox.min.js"></script>
 </body>
 
@@ -121,12 +122,14 @@
             url: '/shop/list',
             pagination: true,
             sidePagination: "server",
+            locale: 'zh-CN',
             search: true,
+            showButtonText: true,
             searchOnEnterKey: true,
             showSearchButton: true,
-            //striped: true,
+            showSearchClearButton: true,
+            showRefresh: true,
             toolbar: "#shop",
-            //showRefresh: true,
             clickToSelect: true,
             sortable: false,
             smartDisplay: false,
@@ -195,6 +198,8 @@
                 title: '店铺名字'
             }]
         });
+
+        $('.search-input').attr('placeholder', '输入店铺代码');
 
         $('#save').click(function() {
             if($('#form')[0].reportValidity()) {
