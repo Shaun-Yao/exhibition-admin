@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.honji.exhibition.admin.entity.Participant;
 import com.honji.exhibition.admin.mapper.ParticipantMapper;
+import com.honji.exhibition.admin.model.ParticipantVO;
 import com.honji.exhibition.admin.service.IParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class ParticipantServiceImpl extends ServiceImpl<ParticipantMapper, Parti
     private ParticipantMapper participantMapper;
 
     @Override
-    public IPage<Participant> getForIndex(Page<Participant> page, String shopType, String name) {
+    public IPage<ParticipantVO> getForIndex(Page<Participant> page, String shopType, String name) {
         return participantMapper.selectForIndex(page, shopType, name);
     }
 

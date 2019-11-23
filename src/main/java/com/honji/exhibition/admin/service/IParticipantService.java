@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.honji.exhibition.admin.entity.Participant;
+import com.honji.exhibition.admin.model.ParticipantVO;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ import java.util.List;
  */
 public interface IParticipantService extends IService<Participant> {
 
-    IPage<Participant> getForIndex(Page<Participant> page, String shopType, String name);
+    IPage<ParticipantVO> getForIndex(Page<Participant> page, String shopType, String name);
 
     List<Participant> getByArea(Long userId);
 

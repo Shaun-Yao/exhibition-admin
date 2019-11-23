@@ -1,11 +1,14 @@
 package com.honji.exhibition.admin.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.honji.exhibition.admin.entity.Admin;
 import com.honji.exhibition.admin.entity.Participant;
+import com.honji.exhibition.admin.entity.RoomParticipant;
 import com.honji.exhibition.admin.model.EasyUIDataGridResult;
 import com.honji.exhibition.admin.service.IParticipantService;
+import com.honji.exhibition.admin.service.IRoomParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +33,9 @@ public class ParticipantController {
     private IParticipantService participantService;
 
     @Autowired
+    private IRoomParticipantService roomParticipantService;
+
+    @Autowired
     private HttpSession session;
 
 
@@ -39,12 +45,12 @@ public class ParticipantController {
     }
 
     @GetMapping("/list")
-    public EasyUIDataGridResult list(@RequestParam int page, @RequestParam int size,
-                                     @RequestParam String name) {
+    public EasyUIDataGridResult list(@RequestParam(defaultValue = "0") int offset, @RequestParam int limit,
+                                     @RequestParam String search) {
         Admin admin = (Admin) session.getAttribute("admin");
-        Page<Participant> participantPage = new Page<>(page, size);
+        Page<Participant> participantPage = new Page<>(offset / limit + 1, limit);
 
-        return new EasyUIDataGridResult(participantService.getForIndex(participantPage, admin.getType(), name));
+        return new EasyUIDataGridResult(participantService.getForIndex(participantPage, admin.getType(), search));
 
     }
 
@@ -56,6 +62,15 @@ public class ParticipantController {
 
     @PostMapping("/remove")
     public boolean remove(@RequestParam String[] ids) {
+        //TODO 使用一条sql完成
+        for (String id : ids) {
+            QueryWrapper<RoomParticipant> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("participant_id", id);
+            RoomParticipant roomParticipant = roomParticipantService.getOne(queryWrapper);
+            if (roomParticipant != null) {//已经被选入同住人不能删除
+                return false;
+            }
+        }
         List<String> resultList = new ArrayList<>(ids.length);
         Collections.addAll(resultList, ids);
         return participantService.removeByIds(resultList);

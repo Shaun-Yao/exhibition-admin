@@ -27,9 +27,9 @@
         不带 title 的面板标题
     </div>
     <div class="panel-body">
-        <form class="form-horizontal" id="form" role="form" action="/schedule-time-config/update" method="post" >
+        <form class="form-horizontal" th:id="${'form' + timeConfig.id}" role="form" action="/schedule-time-config/update" method="post" >
             <input type="hidden" name="id" th:value="${timeConfig.id}" >
-            <input type="hidden" name="shop_type" th:value="${timeConfig.shopType}" >
+            <!--<input type="hidden" name="shopType" th:value="${timeConfig.shopType}" >-->
             <div class="form-group" >
                 <label  class="col-sm-2 control-label" >来程时间</label>
                 <div class="col-sm-4">
@@ -53,7 +53,7 @@
             <div class="col-sm-2">
             </div>
             <div class="col-md-2 text-center">
-                <button type="button" class="btn btn-primary btn-lg btn-block" id="save">保存</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block save"  th:onclick="updateTime([[${'form' + timeConfig.id}]])" >保存</button>
             </div>
         </form>
     </div>
@@ -72,8 +72,43 @@
 
 <script th:inline="javascript">
 
-    $(function(){
+    function updateTime(form) {
+        //console.log($('#' + form + '').attr('id'));
+        var $form = $('#' + form + '');
+        if($form[0].reportValidity()) {
+            $.ajax({
+                type: "post",
+                url: "/schedule-time-config/update",
+                data: $form.serialize(),
+                success: function(data){
+                    tips(data);
+                }
+            });
+        }
+    }
 
+    function tips(data) {
+        var message = '';
+        if (data) {
+            //$("#myAlert").html('操作成功！').addClass('alert-success').show().delay(1200).fadeOut();
+            message = '操作成功！';
+        } else {
+            //$("#myAlert").html('操作失败，请刷新页面重试！').addClass('alert-warning').show().delay(3600).fadeOut();
+            message = '操作失败，请刷新页面重试！';
+        }
+        var dialog = bootbox.dialog({
+            message: message,
+            closeButton: false
+        });
+
+        dialog.init(function(){
+            setTimeout(function(){
+                dialog.modal('hide');
+            }, 2000);
+        });
+    }
+
+    $(function(){
 
         //$("#myAlert").alert('close');
         //$("[name='my-checkbox']").bootstrapSwitch();
@@ -104,7 +139,7 @@
             }
         });
 
-        $('#save').click(function() {
+        /*$('.save').click(function() {
             //if($('#form')[0].reportValidity()) {
                 //$('#form').submit();
                 $.ajax({
@@ -116,28 +151,8 @@
                     }
                 });
             //}
-        });
-        
-        function tips(data) {
-            var message = '';
-            if (data) {
-                //$("#myAlert").html('操作成功！').addClass('alert-success').show().delay(1200).fadeOut();
-                message = '操作成功！';
-            } else {
-                //$("#myAlert").html('操作失败，请刷新页面重试！').addClass('alert-warning').show().delay(3600).fadeOut();
-                message = '操作失败，请刷新页面重试！';
-            }
-            var dialog = bootbox.dialog({
-                message: message,
-                closeButton: false
-            });
+        });*/
 
-            dialog.init(function(){
-                setTimeout(function(){
-                    dialog.modal('hide');
-                }, 2000);
-            });
-        }
     });
 
 </script>

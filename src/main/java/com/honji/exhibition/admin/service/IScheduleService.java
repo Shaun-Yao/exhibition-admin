@@ -4,6 +4,7 @@ package com.honji.exhibition.admin.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.honji.exhibition.admin.entity.Schedule;
+import com.honji.exhibition.admin.model.ScheduleVO;
 
 /**
  * <p>
@@ -15,5 +16,5 @@ import com.honji.exhibition.admin.entity.Schedule;
  */
 public interface IScheduleService extends IService<Schedule> {
 
-    IPage<Schedule> getForIndex(IPage<Schedule> page, String shopType, String userId);
+    IPage<ScheduleVO> getForIndex(IPage<Schedule> page, String shopType, String userId);
 }

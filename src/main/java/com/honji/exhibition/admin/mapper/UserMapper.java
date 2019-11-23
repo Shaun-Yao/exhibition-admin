@@ -16,8 +16,9 @@ public interface UserMapper extends BaseMapper<User> {
 
 
     @Select({"<script>",
-            "SELECT `user`.id as id, shop.`code` as shopCode, shop.`name` as shopName FROM `user` ",
-            "LEFT JOIN shop on `user`.shop_id = shop.id ",
+            "SELECT `user`.id, shop.`code` as shopCode, shop.`name` as shopName, shop.area, group_concat(participant.name) as userNames FROM `user` ",
+            "LEFT JOIN participant ON `user`.id = participant.user_id ",
+            "LEFT JOIN shop ON `user`.shop_id = shop.id ",
             "WHERE 1=1 ",
             "<if test='shopType!=null and shopType!=\"\"'>",
             "AND shop.type = #{shopType} ",
@@ -25,8 +26,7 @@ public interface UserMapper extends BaseMapper<User> {
             "<if test='shopCode!=null and shopCode!=\"\"'>",
             "AND shop.code like CONCAT('%', #{shopCode}, '%')",
             "</if>",
+            "GROUP BY `user`.id",
             "</script>"})
-//    @Select("SELECT `user`.id as id, shop.`code` as shopCode, shop.`name` as shopName FROM `user` " +
-//            "LEFT JOIN shop on `user`.shop_id = shop.id WHERE 1 = 1 shop.code like CONCAT('%', #{shopCode}, '%')")
     List<UserVO> selectUsers(Page<UserVO> page, @Param("shopType") String shopType, @Param("shopCode") String shopCode);
 }

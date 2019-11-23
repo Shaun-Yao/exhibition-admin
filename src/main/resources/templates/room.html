@@ -191,6 +191,7 @@
 
         $('.search-input').attr('placeholder', '输入报名号');
 
+        $('#table').bootstrapTable('mergeCells', {index: 0, field: 'userId', colspan: 2, rowspan: 2});
         $('#save').click(function() {
             if($('#form')[0].reportValidity()) {
                 var name1 = $('#name1').val();

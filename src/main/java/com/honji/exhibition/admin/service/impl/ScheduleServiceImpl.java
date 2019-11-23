@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.honji.exhibition.admin.entity.Schedule;
 import com.honji.exhibition.admin.mapper.ScheduleMapper;
+import com.honji.exhibition.admin.model.ScheduleVO;
 import com.honji.exhibition.admin.service.IScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, Schedule> i
     private ScheduleMapper scheduleMapper;
 
     @Override
-    public IPage<Schedule> getForIndex(IPage<Schedule> page, String shopType, String userId) {
+    public IPage<ScheduleVO> getForIndex(IPage<Schedule> page, String shopType, String userId) {
         return scheduleMapper.selectForIndex(page, shopType, userId);
     }
 }

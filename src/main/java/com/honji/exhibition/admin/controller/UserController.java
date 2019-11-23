@@ -1,10 +1,8 @@
 package com.honji.exhibition.admin.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.honji.exhibition.admin.entity.Admin;
-import com.honji.exhibition.admin.entity.Participant;
 import com.honji.exhibition.admin.entity.User;
 import com.honji.exhibition.admin.model.EasyUIDataGridResult;
 import com.honji.exhibition.admin.model.UserVO;
@@ -44,19 +42,14 @@ public class UserController {
 
 
     @GetMapping("/list")
-    public EasyUIDataGridResult list(@RequestParam int page, @RequestParam int size,@RequestParam String shopCode) {
+    public EasyUIDataGridResult list(@RequestParam(defaultValue = "0") int offset, @RequestParam int limit,
+                                     @RequestParam String search) {
 
         Admin admin = (Admin) session.getAttribute("admin");
-        Page<UserVO> userPage = new Page<>(page, size);
-        List<UserVO> userVOS = userService.getUsers(userPage, admin.getType(), shopCode);
+        Page<UserVO> userPage = new Page<>(offset / limit + 1, limit);
+        List<UserVO> userVOS = userService.getUsers(userPage, admin.getType(), search);
         userPage.setRecords(userVOS);
-        for (UserVO user : userVOS) {
-            Long userId = user.getId();
-            QueryWrapper<Participant> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq("user_id", userId);
-            List<Participant> participants = participantService.list(queryWrapper);
-            user.initParticipants(participants);
-        }
+
         return  new EasyUIDataGridResult(userPage);
 
     }

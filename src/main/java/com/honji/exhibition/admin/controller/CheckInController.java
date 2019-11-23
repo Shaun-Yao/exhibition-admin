@@ -62,13 +62,13 @@ public class CheckInController {
         Page<UserVO> userPage = new Page<>(page, rows);
         List<UserVO> userVOS = checkInService.getUnsignedUsers(userPage, shopCode);
         userPage.setRecords(userVOS);
-        for (UserVO user : userVOS) {
+        /*for (UserVO user : userVOS) {
             Long userId = user.getId();
             QueryWrapper<Participant> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("user_id", userId);
             List<Participant> participants = participantService.list(queryWrapper);
             user.initParticipants(participants);
-        }
+        }*/
         return  new EasyUIDataGridResult(userPage.getTotal(), userVOS);
     }
 

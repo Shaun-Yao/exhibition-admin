@@ -68,13 +68,13 @@ public class BusUserController {
         //IPage<User> resultPage = userService.page(userPage);
         List<UserVO> userVOS = busUserService.getPickUpUsers(userPage, station);
         userPage.setRecords(userVOS);
-        for (UserVO user : userVOS) {
+        /*for (UserVO user : userVOS) {
             Long userId = user.getId();
             QueryWrapper<Participant> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("user_id", userId);
             List<Participant> participants = participantService.list(queryWrapper);
             user.initParticipants(participants);
-        }
+        }*/
         return  new EasyUIDataGridResult(userPage.getTotal(), userVOS);
     }
 

@@ -40,11 +40,11 @@ public class ScheduleController {
     }
 
     @GetMapping("/list")
-    public EasyUIDataGridResult list(@RequestParam int page, @RequestParam int size,
-                                     @RequestParam String userId) {
+    public EasyUIDataGridResult list(@RequestParam(defaultValue = "0") int offset, @RequestParam int limit,
+                                     @RequestParam String search) {
         Admin admin = (Admin) session.getAttribute("admin");
-        IPage<Schedule> schedulePage = new Page<>(page, size);
-        return new EasyUIDataGridResult(scheduleService.getForIndex(schedulePage, admin.getType(), userId));
+        IPage<Schedule> schedulePage = new Page<>(offset / limit + 1, limit);
+        return new EasyUIDataGridResult(scheduleService.getForIndex(schedulePage, admin.getType(), search));
 
     }
 

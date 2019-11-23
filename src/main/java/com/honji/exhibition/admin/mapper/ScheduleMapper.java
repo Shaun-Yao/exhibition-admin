@@ -4,6 +4,7 @@ package com.honji.exhibition.admin.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.honji.exhibition.admin.entity.Schedule;
+import com.honji.exhibition.admin.model.ScheduleVO;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -19,8 +20,12 @@ public interface ScheduleMapper extends BaseMapper<Schedule> {
 
 
     @Select({"<script>",
-            "SELECT schedule.* FROM schedule ",
-            "LEFT JOIN `user` ON schedule.user_id = `user`.id ",
+            "SELECT sc.id, sc.user_id as userId, sc.arrived_travel_mode as arrivedTravelMode,",
+            "sc.leaved_travel_mode as leavedTravelMode, sc.arrived_num as arrivedNum,",
+            "sc.leaved_num as leavedNum, sc.arrived_time as arrivedTime, sc.leaved_time as leavedTime,",
+            "sc.arrived_pick_up_station as arrivedPickUpStation, sc.leaved_pick_up_location as leavedPickUpLocation,",
+            "sc.leaved_station as leavedStation, shop.`code` as shopCode, shop.`name` as shopName, shop.area FROM `schedule` sc ",
+            "LEFT JOIN `user` ON sc.user_id = `user`.id ",
             "LEFT JOIN shop ON `user`.shop_id = shop.id ",
             "WHERE 1=1 ",
             "<if test='shopType!=null and shopType!=\"\"'>",
@@ -30,7 +35,7 @@ public interface ScheduleMapper extends BaseMapper<Schedule> {
             "AND schedule.user_id like CONCAT('%', #{userId}, '%')",
             "</if>",
             "</script>"})
-    IPage<Schedule> selectForIndex(IPage<Schedule> page, @Param("shopType") String shopType, @Param("userId") String userId);
+    IPage<ScheduleVO> selectForIndex(IPage<Schedule> page, @Param("shopType") String shopType, @Param("userId") String userId);
 
 
 }

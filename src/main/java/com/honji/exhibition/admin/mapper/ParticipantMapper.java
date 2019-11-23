@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.honji.exhibition.admin.entity.Participant;
+import com.honji.exhibition.admin.model.ParticipantVO;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -21,8 +22,10 @@ public interface ParticipantMapper extends BaseMapper<Participant> {
 
 
     @Select({"<script>",
-            "SELECT participant.* FROM participant ",
-            "LEFT JOIN `user` ON participant.user_id = `user`.id ",
+            "SELECT participant.id, participant.user_id as userId, participant.name, ",
+            "participant.mobile, participant.sex, participant.attend_training as attendTraining, ",
+            " shop.`code` as shopCode, shop.`name` as shopName, shop.area FROM participant",
+            "LEFT JOIN `user` ON participant.user_id = `user`.id",
             "LEFT JOIN shop ON `user`.shop_id = shop.id ",
             "WHERE 1=1 ",
             "<if test='shopType!=null and shopType!=\"\"'>",
@@ -32,7 +35,7 @@ public interface ParticipantMapper extends BaseMapper<Participant> {
             "AND participant.name like CONCAT('%', #{name}, '%')",
             "</if>",
             "</script>"})
-    IPage<Participant> selectForIndex(Page<Participant> page, @Param("shopType") String shopType, @Param("name") String name);
+    IPage<ParticipantVO> selectForIndex(Page<Participant> page, @Param("shopType") String shopType, @Param("name") String name);
 
     @Select("SELECT *  FROM participant WHERE user_id IN (SELECT id FROM `user` " +
             " WHERE shop_id IN ( SELECT id FROM shop WHERE area IN ( SELECT area FROM shop WHERE id = ( SELECT shop_id FROM `user` WHERE id = #{userId} ) ) ))" +

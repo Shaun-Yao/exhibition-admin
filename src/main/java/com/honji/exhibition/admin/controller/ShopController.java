@@ -36,11 +36,11 @@ public class ShopController {
     }
 
     @GetMapping("/list")
-    public EasyUIDataGridResult list(@RequestParam int page, @RequestParam int size,
-                                     @RequestParam String code) {
-        IPage<Shop> shopPage = new Page<>(page, size);
+    public EasyUIDataGridResult list(@RequestParam(defaultValue = "0") int offset, @RequestParam int limit,
+                                     @RequestParam String search) {
+        IPage<Shop> shopPage = new Page<>(offset / limit + 1, limit);
         QueryWrapper<Shop> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like("code", code);
+        queryWrapper.like("code", search);
         return new EasyUIDataGridResult(shopService.page(shopPage, queryWrapper));
 
     }
