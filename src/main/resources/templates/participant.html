@@ -175,6 +175,30 @@
                 title: 'ID',
                 visible: false
             }, {
+                field: 'shopType',
+                title: '分区',
+                formatter: function (value, row, index) {
+                    if (value == 'ZHI_YING') {
+                        return "直营";
+                    } else if (value == 'DAI_LI') {
+                        return "代理";
+                    } else {
+                        return "联营";
+                    }
+                }
+            }, {
+                field: 'area',
+                title: '大区'
+            }, {
+                field: 'smallArea',
+                title: '小区'
+            }, {
+                field: 'shopCode',
+                title: '店铺代码'
+            }, {
+                field: 'shopName',
+                title: '店铺名称'
+            }, {
                 field: 'userId',
                 title: '报名号'
             }, {
@@ -205,15 +229,6 @@
                         return "否";
                     }
                 }
-            }, {
-                field: 'shopCode',
-                title: '店铺代码'
-            }, {
-                field: 'shopName',
-                title: '店铺名称'
-            }, {
-                field: 'area',
-                title: '大区'
             }]
         });
 

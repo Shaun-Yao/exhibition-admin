@@ -1,6 +1,7 @@
 package com.honji.exhibition.admin.model;
 
 import com.honji.exhibition.admin.enums.SexEnum;
+import com.honji.exhibition.admin.enums.ShopTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -14,9 +15,11 @@ public class ParticipantVO {
     private String mobile;
     private SexEnum sex;
     private boolean attendTraining;
+    private ShopTypeEnum shopType;
     private String shopCode;
     private String shopName;
     private String area;
+    private String smallArea;
 
 
 /*

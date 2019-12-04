@@ -16,7 +16,8 @@ public interface UserMapper extends BaseMapper<User> {
 
 
     @Select({"<script>",
-            "SELECT `user`.id, shop.`code` as shopCode, shop.`name` as shopName, shop.area, group_concat(participant.name) as userNames FROM `user` ",
+            "SELECT `user`.id, shop.type as shopType, shop.`code` as shopCode, shop.`name` as shopName,  ",
+            "shop.area, shop.small_area as smallArea, group_concat(participant.name) as userNames FROM `user`",
             "LEFT JOIN participant ON `user`.id = participant.user_id ",
             "LEFT JOIN shop ON `user`.shop_id = shop.id ",
             "WHERE 1=1 ",

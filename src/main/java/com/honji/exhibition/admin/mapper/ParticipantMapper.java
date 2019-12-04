@@ -24,7 +24,7 @@ public interface ParticipantMapper extends BaseMapper<Participant> {
     @Select({"<script>",
             "SELECT participant.id, participant.user_id as userId, participant.name, ",
             "participant.mobile, participant.sex, participant.attend_training as attendTraining, ",
-            " shop.`code` as shopCode, shop.`name` as shopName, shop.area FROM participant",
+            "shop.type as shopType, shop.`code` as shopCode, shop.`name` as shopName, shop.area, shop.small_area as smallArea FROM participant",
             "LEFT JOIN `user` ON participant.user_id = `user`.id",
             "LEFT JOIN shop ON `user`.shop_id = shop.id ",
             "WHERE 1=1 ",

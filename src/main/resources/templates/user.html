@@ -91,18 +91,33 @@
                 formatter: function (value, row, index) {
                     return row.id;
                 }
-            },{
-                field: 'id',
-                title: '报名号'
+            }, {
+                field: 'shopType',
+                title: '分区',
+                formatter: function (value, row, index) {
+                    if (value == 'ZHI_YING') {
+                        return "直营";
+                    } else if (value == 'DAI_LI') {
+                        return "代理";
+                    } else {
+                        return "联营";
+                    }
+                }
+            }, {
+                field: 'area',
+                title: '大区'
+            }, {
+                field: 'smallArea',
+                title: '小区'
             }, {
                 field: 'shopCode',
                 title: '店铺代码'
             }, {
                 field: 'shopName',
                 title: '店铺名称'
-            }, {
-                field: 'area',
-                title: '大区'
+            },{
+                field: 'id',
+                title: '报名号'
             }, {
                 field: 'userNames',
                 title: '参与人'
