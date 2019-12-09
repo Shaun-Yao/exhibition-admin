@@ -24,8 +24,10 @@ public interface ScheduleMapper extends BaseMapper<Schedule> {
             "sc.leaved_travel_mode as leavedTravelMode, sc.arrived_num as arrivedNum,",
             "sc.leaved_num as leavedNum, sc.arrived_time as arrivedTime, sc.leaved_time as leavedTime,",
             "sc.arrived_pick_up_station as arrivedPickUpStation, sc.leaved_pick_up_location as leavedPickUpLocation,",
-            "sc.leaved_station as leavedStation, shop.type as shopType, shop.`code` as shopCode, shop.`name` as shopName, shop.area, shop.small_area as smallArea FROM `schedule` sc ",
+            "sc.leaved_station as leavedStation, shop.type as shopType, shop.`code` as shopCode, shop.`name` as shopName, ",
+            "group_concat(participant.name) as userNames, shop.area, shop.small_area as smallArea FROM `schedule` sc ",
             "LEFT JOIN `user` ON sc.user_id = `user`.id ",
+            "LEFT JOIN participant ON sc.user_id = participant.user_id ",
             "LEFT JOIN shop ON `user`.shop_id = shop.id ",
             "WHERE 1=1 ",
             "<if test='shopType!=null and shopType!=\"\"'>",
@@ -34,6 +36,7 @@ public interface ScheduleMapper extends BaseMapper<Schedule> {
             "<if test='userId!=null and userId!=\"\"'>",
             "AND schedule.user_id like CONCAT('%', #{userId}, '%')",
             "</if>",
+            "GROUP BY `user`.id",
             "</script>"})
     IPage<ScheduleVO> selectForIndex(IPage<Schedule> page, @Param("shopType") String shopType, @Param("userId") String userId);
 

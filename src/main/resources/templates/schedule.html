@@ -7,6 +7,7 @@
 
     <link rel="stylesheet" href="/AdminLTE-2.4.18/bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/webjars/bootstrap-table/dist/bootstrap-table.min.css">
+    <link rel="stylesheet" href="/webjars/weui/1.1.2/dist/style/weui.min.css" />
 </head>
 <body>
 <table id="table" class="modal-body">
@@ -17,6 +18,7 @@
     <button type="button" class="btn btn-danger" id="remove">删除</button>
 
 </div>
+
 
 <!-- 模态框（Modal） -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -111,6 +113,41 @@
                         </div>
                     </div>
 
+                    <div class="page__bd">
+                        <div class="weui-gallery" id="gallery">
+                            <span class="weui-gallery__img" id="galleryImg"></span>
+                            <div class="weui-gallery__opr">
+                                <a href="javascript:" class="weui-gallery__del">
+                                    <i class="weui-icon-delete weui-icon_gallery-delete"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="weui-cells weui-cells_form">
+                            <div class="weui-cell">
+                                <div class="weui-cell__bd">
+                                    <div class="weui-uploader">
+                                        <div class="weui-uploader__hd">
+                                            <p class="weui-uploader__title">图片上传</p>
+                                            <div class="weui-uploader__info"></div>
+                                        </div>
+                                        <div class="weui-uploader__bd">
+                                            <ul class="weui-uploader__files" id="uploaderFiles">
+
+                                            </ul>
+                                            <div class="weui-uploader__input-box">
+                                                <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="picture1" id="picture1" >
+                    <input type="hidden" name="picture2" id="picture2" >
+
 
                 </div>
                 <div class="modal-footer">
@@ -142,6 +179,72 @@
 <script th:inline="javascript">
 
     $(function(){
+
+        var fileArr=new Array();
+        var pictureSize = 0;
+        var tmpl = '<li class="weui-uploader__file" file-name="" style="background-image:url(#url#)"></li>',
+            $gallery = $("#gallery"), $galleryImg = $("#galleryImg"),
+            $uploaderInput = $("#uploaderInput"),
+            $uploaderFiles = $("#uploaderFiles");
+
+        $uploaderInput.on("change", function(e){
+            var  files = e.target.files;
+            var length=fileArr.length;
+            for (var i = 0, len = files.length; i < len; ++i) {
+                var file = files[i];
+                if(length + i + 1 > 2) {
+                    break;
+                }
+                var formData = new FormData();
+                formData.append("file", file);
+                $.ajax({
+                    url: "/schedule/upload",
+                    type: "POST",
+                    async: false,
+                    cache: false,
+                    processData: false,// 告诉jQuery不要去处理发送的数据
+                    contentType: false,// 告诉jQuery不要去设置Content-Type请求头
+                    data: formData,
+                    success: function(result){
+                        //console.log(result);
+                        //$(tmpl.replace('#fileName#', result));
+                        $uploaderFiles.append($(tmpl.replace('#url#', "/schedule/show?fileName=" + result)).attr('file-name', result));
+                    }
+                });
+                pictureSize = pictureSize + 1;
+                fileArr.push(file);
+
+            }
+            checkPhotoSize();
+        });
+
+        //控制显示三张以内照片
+        function checkPhotoSize(){
+            if(pictureSize > 1){
+                //console.log("hide box");
+                $(".weui-uploader__input-box").hide();
+            }else{
+                console.log("show box");
+                $(".weui-uploader__input-box").show();
+            }
+        };
+
+        var index; //第几张图片
+        $uploaderFiles.on("click", "li", function(){
+            index = $(this).index();
+            $galleryImg.attr("style", this.getAttribute("style"));
+            $gallery.fadeIn(100);
+        });
+        $gallery.on("click", function(){
+            $gallery.fadeOut(100);
+        });
+
+        //删除图片
+        $(".weui-gallery__del").click(function() {
+            $uploaderFiles.find("li").eq(index).remove();
+            pictureSize = pictureSize - 1;
+            checkPhotoSize();
+        });
 
         $('#table').bootstrapTable({
             url: '/schedule/list',
@@ -201,6 +304,19 @@
                         $("#leavedPickUpLocation option:contains('" + data.leavedPickUpLocation + "')")[0].selected=true;
                         $("#leavedStation option:contains('" + data.leavedStation + "')")[0].selected=true;
 
+                        $uploaderFiles.empty();
+                        pictureSize = 0;
+                        if (data.picture1 != null && data.picture1 != '') {
+                            $uploaderFiles.append($(tmpl.replace('#url#', "/schedule/show?fileName=" + data.picture1)).attr('file-name', data.picture1));
+                            pictureSize = pictureSize + 1;
+                        }
+
+                        if (data.picture2 != null && data.picture2 != '') {
+                            $uploaderFiles.append($(tmpl.replace('#url#', "/schedule/show?fileName=" + data.picture2)).attr('file-name', data.picture2));
+                            pictureSize = pictureSize + 1;
+                            $(".weui-uploader__input-box").hide();
+                        }
+
                     }
                 });
                 $('#myModal').modal('show');
@@ -245,6 +361,9 @@
                 field: 'userId',
                 title: '报名号'
             }, {
+                field: 'userNames',
+                title: '参与人'
+            }, {
                 field: 'arrivedTravelMode',
                 title: '来程方式'
             }, {
@@ -278,6 +397,29 @@
 
         $('#save').click(function() {
             if($('#form')[0].reportValidity()) {
+                var pictures = $uploaderFiles.find("li");
+                if (pictures.length == 0) { //删除了所有图片需要清空值
+                    $('#picture1').val('');
+                    $('#picture2').val('');
+                    if (($('#arrivedTravelMode').val() != 'SELF_DRIVING' && $('#arrivedTravelMode').val() != 'BUS')
+                        || $('#leavedTravelMode').val() != 'SELF_DRIVING' && $('#leavedTravelMode').val() != 'BUS') {
+                        alert("请上传行程图片！");
+                        return;
+                    }
+                }
+                //console.log(23423);
+                if (pictures.length == 1) { //只有一张图片，清空第二张
+                    $('#picture2').val('');
+                }
+                pictures.each(function (i) {
+
+                    if (i == 0) {
+                        $('#picture1').val($(this).attr('file-name'));
+                    }
+                    if (i == 1) {
+                        $('#picture2').val($(this).attr('file-name'));
+                    }
+                });
                 $.ajax({
                     type: "get",
                     url: "/user/get?id=" + $('#userId').val(),

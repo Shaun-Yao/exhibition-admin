@@ -29,6 +29,7 @@ public class ScheduleVO {
     private String shopName;
     private String area;
     private String smallArea;
+    private String userNames;
 
 
 }
