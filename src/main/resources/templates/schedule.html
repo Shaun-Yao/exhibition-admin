@@ -195,6 +195,10 @@
                 if(length + i + 1 > 2) {
                     break;
                 }
+                if (file.size > 3 * 1024 * 1024) {
+                    alert("图片超过3M，不允许上传");
+                    continue;
+                }
                 var formData = new FormData();
                 formData.append("file", file);
                 $.ajax({
@@ -206,12 +210,14 @@
                     contentType: false,// 告诉jQuery不要去设置Content-Type请求头
                     data: formData,
                     success: function(result){
-                        //console.log(result);
-                        //$(tmpl.replace('#fileName#', result));
+                        pictureSize = pictureSize + 1;
                         $uploaderFiles.append($(tmpl.replace('#url#', "/schedule/show?fileName=" + result)).attr('file-name', result));
+                    },
+                    error:function(xhr,state,errorThrown){
+                        alert("图片上传失败，请重新尝试！");
                     }
                 });
-                pictureSize = pictureSize + 1;
+
                 fileArr.push(file);
 
             }
