@@ -34,7 +34,7 @@ public interface ScheduleMapper extends BaseMapper<Schedule> {
             "AND shop.type = #{shopType} ",
             "</if>",
             "<if test='userId!=null and userId!=\"\"'>",
-            "AND schedule.user_id like CONCAT('%', #{userId}, '%')",
+            "AND sc.user_id like CONCAT('%', #{userId}, '%')",
             "</if>",
             "GROUP BY `user`.id",
             "</script>"})
