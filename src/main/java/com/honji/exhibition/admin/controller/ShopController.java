@@ -4,12 +4,15 @@ package com.honji.exhibition.admin.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.honji.exhibition.admin.entity.Admin;
 import com.honji.exhibition.admin.entity.Shop;
 import com.honji.exhibition.admin.model.EasyUIDataGridResult;
 import com.honji.exhibition.admin.service.IShopService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,6 +32,8 @@ public class ShopController {
     @Autowired
     private IShopService shopService;
 
+    @Autowired
+    private HttpSession session;
 
     @GetMapping("/get")
     public Shop get(@RequestParam Long id) {
@@ -38,8 +43,13 @@ public class ShopController {
     @GetMapping("/list")
     public EasyUIDataGridResult list(@RequestParam(defaultValue = "0") int offset, @RequestParam int limit,
                                      @RequestParam String search) {
+        Admin admin = (Admin) session.getAttribute("admin");
         IPage<Shop> shopPage = new Page<>(offset / limit + 1, limit);
         QueryWrapper<Shop> queryWrapper = new QueryWrapper<>();
+        String type = admin.getType();
+        if (!StringUtils.isEmpty(type)) {
+            queryWrapper.eq("type", admin.getType());
+        }
         queryWrapper.like("code", search);
         return new EasyUIDataGridResult(shopService.page(shopPage, queryWrapper));
 
