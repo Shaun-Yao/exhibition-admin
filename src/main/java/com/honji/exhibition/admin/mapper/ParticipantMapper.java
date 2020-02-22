@@ -37,6 +37,55 @@ public interface ParticipantMapper extends BaseMapper<Participant> {
             "</script>"})
     IPage<ParticipantVO> selectForIndex(Page<Participant> page, @Param("shopType") String shopType, @Param("name") String name);
 
+    /**
+     * 查询指定区域所有未分配的房间的参与人
+     * @param shopType
+     * @return
+     */
+    @Select({"<script>",
+            "SELECT participant.id, participant.name, participant.sex FROM participant",
+            "LEFT JOIN `user` ON participant.user_id = `user`.id",
+            "LEFT JOIN shop ON `user`.shop_id = shop.id ",
+            "WHERE participant.id not in (SELECT participant_id FROM room_participant) ",
+            "<if test='shopType!=null and shopType!=\"\"'>",
+            "AND shop.type = #{shopType} ",
+            "</if>",
+            "</script>"})
+    List<Participant> selectAvailable(@Param("shopType") String shopType);
+
+    /**
+     * 查询指定区域所有未分配的房间的儿童
+     * @param shopType
+     * @return
+     */
+    @Select({"<script>",
+            "SELECT participant.id, participant.name FROM participant",
+            "LEFT JOIN `user` ON participant.user_id = `user`.id",
+            "LEFT JOIN shop ON `user`.shop_id = shop.id ",
+            "WHERE sex = 3",
+            "AND participant.id not in (SELECT participant_id FROM room_participant) ",
+            "<if test='shopType!=null and shopType!=\"\"'>",
+            "AND shop.type = #{shopType} ",
+            "</if>",
+            "</script>"})
+    List<Participant> selectAvailableChildren(@Param("shopType") String shopType);
+
+    /**
+     * 查找该用户下面已经分配房间的参与人
+     * @param shopType
+     * @return
+     */
+    @Select({"<script>",
+            "SELECT participant.id, participant.name FROM participant",
+            "LEFT JOIN `user` ON participant.user_id = `user`.id",
+            "LEFT JOIN shop ON `user`.shop_id = shop.id ",
+            "WHERE 1=1 ",
+            "<if test='shopType!=null and shopType!=\"\"'>",
+            "AND shop.type = #{shopType} ",
+            "</if>",
+            "</script>"})
+    List<Participant> selectUnAvailable(@Param("shopType") String shopType);
+
     @Select("SELECT *  FROM participant WHERE user_id IN (SELECT id FROM `user` " +
             " WHERE shop_id IN ( SELECT id FROM shop WHERE area IN ( SELECT area FROM shop WHERE id = ( SELECT shop_id FROM `user` WHERE id = #{userId} ) ) ))" +
             " AND id not in (SELECT participant_id FROM room_participant)")

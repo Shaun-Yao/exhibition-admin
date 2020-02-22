@@ -54,6 +54,12 @@ public class ParticipantController {
 
     }
 
+    @GetMapping("/listAvailable")
+    public List<Participant> listAvailable() {
+        Admin admin = (Admin) session.getAttribute("admin");
+        return participantService.getAvailable(admin.getType());
+    }
+
 
     @PostMapping("/save")
     public boolean save(@ModelAttribute Participant participant) {

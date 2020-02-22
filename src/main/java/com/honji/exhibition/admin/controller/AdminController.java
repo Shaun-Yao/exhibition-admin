@@ -3,10 +3,8 @@ package com.honji.exhibition.admin.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.honji.exhibition.admin.entity.Admin;
-import com.honji.exhibition.admin.entity.Participant;
 import com.honji.exhibition.admin.entity.ScheduleTimeConfig;
 import com.honji.exhibition.admin.entity.SignUpSwitch;
-import com.honji.exhibition.admin.enums.SexEnum;
 import com.honji.exhibition.admin.service.IAdminService;
 import com.honji.exhibition.admin.service.IParticipantService;
 import com.honji.exhibition.admin.service.IScheduleTimeConfigService;
@@ -120,12 +118,12 @@ public class AdminController {
 
     @GetMapping("/room")
     public String room(Model model) {
-        List<Participant> participants = participantService.list();
-        QueryWrapper<Participant> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("sex", SexEnum.CHILD);
-        List<Participant> children = participantService.list(queryWrapper);
-        model.addAttribute("participants", participants);
-        model.addAttribute("children", children);
+//        Admin admin = (Admin) session.getAttribute("admin");
+//        String type = admin.getType();
+//        List<Participant> participants = participantService.getAvailable(type);
+//        List<Participant> children = participantService.getAvailableChildren(type);
+//        model.addAttribute("participants", participants);
+//        model.addAttribute("children", children);
         return "room";
     }
 
