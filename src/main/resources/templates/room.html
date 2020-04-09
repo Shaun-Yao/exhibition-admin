@@ -284,6 +284,9 @@
                             },
                             success: function(data){
                                 $('#table').bootstrapTable('refresh');
+                            },
+                            error:function(){
+                                alert("操作失败，请刷新页面重新尝试！");
                             }
                         });
                     }

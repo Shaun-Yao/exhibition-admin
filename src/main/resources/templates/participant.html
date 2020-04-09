@@ -250,6 +250,9 @@
                                 success: function(data){
                                     $('#myModal').modal('hide');
                                     $('#table').bootstrapTable('refresh');
+                                },
+                                error:function(){
+                                    alert("操作失败，请确认数据是否正确后重新尝试！");
                                 }
                             });
                         }
@@ -296,6 +299,9 @@
                                 } else {
                                     alert("参与人已被选入同住人，请先删除同住人信息！");
                                 }
+                            },
+                            error:function(){
+                                alert("操作失败，请刷新页面重新尝试！");
                             }
                         });
                     }

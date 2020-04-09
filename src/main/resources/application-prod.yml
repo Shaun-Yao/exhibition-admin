@@ -1,6 +1,8 @@
 server:
-  port: 8001
-
+  port: 8551
+  servlet:
+    session:
+      timeout: 4h
 
 web:
   upload-path: D:/浪漫订货会/upload/
@@ -20,8 +22,7 @@ spring:
     multipart:
       max-file-size: 5MB
       max-request-size: 10MB
-  session:
-    timeout: 4h
+
 
 mybatis:
   type-aliases-package: com.honji.exhibition.admin

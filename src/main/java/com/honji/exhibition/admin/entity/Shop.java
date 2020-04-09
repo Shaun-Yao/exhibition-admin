@@ -31,4 +31,5 @@ public class Shop extends IdEntity {
     private ShopTypeEnum type;
     private String situation;
     private String mode;
+    private String franchisee;
 }

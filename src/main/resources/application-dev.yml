@@ -1,5 +1,8 @@
 server:
   port: 8001
+  servlet:
+    session:
+      timeout: 4h
 
 
 web:
@@ -20,8 +23,7 @@ spring:
     multipart:
       max-file-size: 5MB
       max-request-size: 10MB
-  session:
-    timeout: 4h
+
 
 mybatis:
   type-aliases-package: com.honji.exhibition.admin

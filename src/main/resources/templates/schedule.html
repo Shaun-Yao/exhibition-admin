@@ -196,7 +196,7 @@
                     break;
                 }
                 if (file.size > 5 * 1024 * 1024) {
-                    alert("图片超过3M，不允许上传");
+                    alert("图片超过5M，不允许上传");
                     continue;
                 }
                 var formData = new FormData();
@@ -407,8 +407,10 @@
                 if (pictures.length == 0) { //删除了所有图片需要清空值
                     $('#picture1').val('');
                     $('#picture2').val('');
-                    if (($('#arrivedTravelMode').val() != 'SELF_DRIVING' && $('#arrivedTravelMode').val() != 'BUS')
-                        || $('#leavedTravelMode').val() != 'SELF_DRIVING' && $('#leavedTravelMode').val() != 'BUS') {
+                    var arrivedTravelMode = $('input:radio[name="arrivedTravelMode"]:checked').val();
+                    var leavedTravelMode = $('input:radio[name="leavedTravelMode"]:checked').val();
+                    if ((arrivedTravelMode != 'SELF_DRIVING' && arrivedTravelMode != 'BUS')
+                        || leavedTravelMode != 'SELF_DRIVING' && leavedTravelMode != 'BUS') {
                         alert("请上传行程图片！");
                         return;
                     }
