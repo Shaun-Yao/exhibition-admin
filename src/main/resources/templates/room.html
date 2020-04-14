@@ -138,6 +138,28 @@
                 //console.log(row.id);
             },
             onDblClickRow: function (row, $element) {
+                $("#name1").empty();
+                $("#name2").empty();
+                $("#name3").empty();
+
+                $.ajax({
+                    type: "GET",
+                    url: "/participant/listForEdit?roomId=" + row.id,
+                    async: false,
+                    success: function(data){
+                        $.each(data, function(index, participant){
+                            $("#name1").append("<option value='" + participant.id + "'>"
+                                + participant.name + "</option>");
+                            $("#name2").append("<option value='" + participant.id + "'>"
+                                + participant.name + "</option>");
+                            if (participant.sex === '儿童') {
+                                $("#name3").append("<option value='" + participant.id + "'>"
+                                    + participant.name + "</option>");
+                            }
+                        });
+                    }
+                });
+
                 $.ajax({
                     type: "GET",
                     url: "/room/get?id=" + row.id,

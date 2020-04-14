@@ -83,27 +83,30 @@ public class ScheduleController {
 
     @ResponseBody
     @PostMapping("/upload")
-    public String upload(@RequestParam("file") MultipartFile file) {
-        String newFileName = "";
+    public String upload(@RequestParam String userId, @RequestParam("file") MultipartFile file) {
+        //UserSessionVO user = (UserSessionVO) session.getAttribute("user");
+        //文件名由用户id-时间组成，如150-20200408095444759.png
+        StringBuffer newFileName = new StringBuffer(userId).append("-");
         if (!file.isEmpty()) {
             try {
                 String fileName = file.getOriginalFilename();//原文件名
+                log.info("图片文件名称 {}", fileName);
                 byte[] bytes = file.getBytes();
                 int idx = fileName.lastIndexOf(".");
                 String suffix= fileName.substring(idx); //文件后缀
                 String time = DateFormatUtils.format(new Date(), "yyyyMMddHHmmssSSS");
-                newFileName = time.concat(suffix);
-                String filePath = uploadPath.concat(newFileName);
+                //newFileName = time.concat(suffix);
+                String filePath = uploadPath.concat(newFileName.append(time).append(suffix).toString());
                 Path path = Paths.get(filePath);
                 Files.write(path, bytes);
-                log.info("{} 上传行程图片成功", fileName);
+                log.info("{} 上传行程图片成功", newFileName);
 
             } catch (IOException e) {
                 log.info("上传行程图片失败");
                 e.printStackTrace();
             }
         }
-        return newFileName;
+        return newFileName.toString();
     }
 
     @RequestMapping("show")

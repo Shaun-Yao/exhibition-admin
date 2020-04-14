@@ -97,8 +97,9 @@ public interface ParticipantMapper extends BaseMapper<Participant> {
     @Select("SELECT * FROM participant WHERE sex = 3 and id not in (SELECT participant_id FROM room_participant)")
     List<Participant> selectChildren();
 
-    @Select("SELECT * FROM participant WHERE id in " +
-            "(SELECT participant_id FROM room_participant WHERE room_id = #{roomId} ORDER BY id)")
+    @Select("SELECT participant.* FROM participant  " +
+            "LEFT JOIN room_participant rp ON participant.id = rp.participant_id " +
+            "LEFT JOIN room ON rp.room_id = room.id WHERE room.id = #{roomId}")
     List<Participant> selectByRoom(Long roomId);
 
 }

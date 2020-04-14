@@ -201,8 +201,9 @@
                 }
                 var formData = new FormData();
                 formData.append("file", file);
+
                 $.ajax({
-                    url: "/schedule/upload",
+                    url: "/schedule/upload?userId=" + $('#userId').val(),
                     type: "POST",
                     async: false,
                     cache: false,
@@ -295,6 +296,8 @@
                     url: "/schedule/get?id=" + row.id,
                     async: false,
                     success: function(data){
+
+                        $gallery.fadeOut(100);//关闭图片预览
                         //console.log($("#arrivedPickUpStation option:contains('" + data.arrivedPickUpStation + "')").val());
                         $('#form').clearForm();
                         $('#id').val(data.id);
@@ -320,8 +323,9 @@
                         if (data.picture2 != null && data.picture2 != '') {
                             $uploaderFiles.append($(tmpl.replace('#url#', "/schedule/show?fileName=" + data.picture2)).attr('file-name', data.picture2));
                             pictureSize = pictureSize + 1;
-                            $(".weui-uploader__input-box").hide();
+                            //$(".weui-uploader__input-box").hide();
                         }
+                        checkPhotoSize();
 
                     }
                 });
@@ -455,7 +459,9 @@
         });
 
         $('#add').click(function () {
-            //console.log($("#arrivedPickUpStation option:eq(1)").val());
+            $uploaderFiles.empty();//清空图片
+            pictureSize = 0;
+            checkPhotoSize();
             $('#id').val('');
             $('#form').resetForm();//无法重置hidden项
             $("input:radio[name=arrivedTravelMode]").get(0).checked=true;

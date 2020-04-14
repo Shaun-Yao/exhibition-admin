@@ -60,6 +60,15 @@ public class ParticipantController {
         return participantService.getAvailable(admin.getType());
     }
 
+    @GetMapping("/listForEdit")
+    public List<Participant> listForEdit(@RequestParam Long roomId) {
+        Admin admin = (Admin) session.getAttribute("admin");
+        List<Participant> participants = participantService.getAvailable(admin.getType());
+        List<Participant> roomMembers = participantService.listByRoom(roomId);
+        participants.addAll(roomMembers);
+        System.out.println(participants);
+        return participants;
+    }
 
     @PostMapping("/save")
     public boolean save(@ModelAttribute Participant participant) {
