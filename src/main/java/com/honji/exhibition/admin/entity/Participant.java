@@ -32,4 +32,6 @@ public class Participant extends BaseEntity {
 
     private boolean attendTraining;
 
+    private boolean attendHotSpring;
+
 }

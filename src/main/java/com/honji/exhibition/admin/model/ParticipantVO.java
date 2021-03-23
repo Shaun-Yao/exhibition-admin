@@ -15,6 +15,7 @@ public class ParticipantVO {
     private String mobile;
     private SexEnum sex;
     private boolean attendTraining;
+    private boolean attendHotSpring;
     private ShopTypeEnum shopType;
     private String shopCode;
     private String shopName;
