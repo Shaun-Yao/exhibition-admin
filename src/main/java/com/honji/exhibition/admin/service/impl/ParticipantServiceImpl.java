@@ -28,8 +28,8 @@ public class ParticipantServiceImpl extends ServiceImpl<ParticipantMapper, Parti
     private ParticipantMapper participantMapper;
 
     @Override
-    public IPage<ParticipantVO> getForIndex(Page<Participant> page, String shopType, String name) {
-        return participantMapper.selectForIndex(page, shopType, name);
+    public IPage<ParticipantVO> getForIndex(Page<Participant> page, String shopType, String search) {
+        return participantMapper.selectForIndex(page, shopType, search);
     }
 
     @Override

@@ -62,12 +62,12 @@ public class RoomController {
     }
 
     @GetMapping("/list")
-    public EasyUIDataGridResult list(@RequestParam int page, @RequestParam int size,
-                                     @RequestParam String userId) {
+    public EasyUIDataGridResult list(@RequestParam int offset, @RequestParam int limit,
+                                     @RequestParam String search) {
 
-        IPage<RoomVO> roomVOPage = new Page<>(page, size);
+        IPage<RoomVO> roomVOPage = new Page<>(offset / limit + 1, limit);
         Admin admin = (Admin) session.getAttribute("admin");
-        return  new EasyUIDataGridResult(roomService.getForIndex(roomVOPage, admin.getType(), userId));
+        return  new EasyUIDataGridResult(roomService.getForIndex(roomVOPage, admin.getType(), search));
 
     }
 

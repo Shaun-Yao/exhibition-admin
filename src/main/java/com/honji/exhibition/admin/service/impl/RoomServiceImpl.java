@@ -92,7 +92,7 @@ public class RoomServiceImpl extends ServiceImpl<RoomMapper, Room> implements IR
     }
 
     @Override
-    public IPage<RoomVO> getForIndex(IPage<RoomVO> page, String shopType, String userId) {
-        return roomMapper.selectForIndex(page, shopType, userId);
+    public IPage<RoomVO> getForIndex(IPage<RoomVO> page, String shopType, String search) {
+        return roomMapper.selectForIndex(page, shopType, search);
     }
 }

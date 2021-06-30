@@ -23,6 +23,6 @@ public interface IRoomService extends IService<Room> {
 
     OccupiedRoomVO getOccupiedRoom(Long userId);
 
-    IPage<RoomVO> getForIndex(IPage<RoomVO> page, String shopType, String userId);
+    IPage<RoomVO> getForIndex(IPage<RoomVO> page, String shopType, String search);
 
 }

@@ -31,11 +31,12 @@ public interface ParticipantMapper extends BaseMapper<Participant> {
             "<if test='shopType!=null and shopType!=\"\"'>",
             "AND shop.type = #{shopType} ",
             "</if>",
-            "<if test='name!=null and name!=\"\"'>",
-            "AND participant.name like CONCAT('%', #{name}, '%')",
+            "<if test='search!=null and search!=\"\"'>",
+            "AND (user_id like CONCAT('%', #{search}, '%') or participant.name like CONCAT('%', #{search}, '%')",
+            " or shop.code like CONCAT('%', #{search}, '%') or shop.name like CONCAT('%', #{search}, '%'))",
             "</if>",
             "</script>"})
-    IPage<ParticipantVO> selectForIndex(Page<Participant> page, @Param("shopType") String shopType, @Param("name") String name);
+    IPage<ParticipantVO> selectForIndex(Page<Participant> page, @Param("shopType") String shopType, @Param("search") String search);
 
     /**
      * 查询指定区域所有未分配的房间的参与人

@@ -16,5 +16,5 @@ import com.honji.exhibition.admin.model.ScheduleVO;
  */
 public interface IScheduleService extends IService<Schedule> {
 
-    IPage<ScheduleVO> getForIndex(IPage<Schedule> page, String shopType, String userId);
+    IPage<ScheduleVO> getForIndex(IPage<Schedule> page, String shopType, String search);
 }

@@ -161,7 +161,6 @@
                     url: "/participant/get?id=" + row.id,
                     async: false,
                     success: function(data){
-                        console.log($("input:radio[name=sex]:eq(0)").attr('sex'));
                         $('#form').clearForm();
                         $('#id').val(data.id);
                         $('#userId').val(data.userId);
@@ -255,7 +254,7 @@
             }]
         });
 
-        $('.search-input').attr('placeholder', '输入名字');
+        $('.search-input').attr('placeholder', '报名号/店铺代码/名称/姓名');
 
         $('#save').click(function() {
             if($('#form')[0].reportValidity()) {

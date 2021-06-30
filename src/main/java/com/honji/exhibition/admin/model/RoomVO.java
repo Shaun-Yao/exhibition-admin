@@ -13,6 +13,8 @@ public class RoomVO {
 
     private Long id;
     private Long userId;
+    private String shopCode;
+    private String shopName;
     private RoomTypeEnum type;
     private String userNames;
     private List<Participant> participants;
@@ -24,9 +26,12 @@ public class RoomVO {
     }
 
 
-    public RoomVO(Long id, Long userId, RoomTypeEnum type, String userNames) {
+    public RoomVO(Long id, Long userId, String shopCode, String shopName,
+                  RoomTypeEnum type, String userNames) {
         this.id = id;
         this.userId = userId;
+        this.shopCode = shopCode;
+        this.shopName = shopName;
         this.type = type;
         this.userNames = userNames;
     }

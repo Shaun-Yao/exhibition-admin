@@ -26,7 +26,7 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, Schedule> i
     private ScheduleMapper scheduleMapper;
 
     @Override
-    public IPage<ScheduleVO> getForIndex(IPage<Schedule> page, String shopType, String userId) {
-        return scheduleMapper.selectForIndex(page, shopType, userId);
+    public IPage<ScheduleVO> getForIndex(IPage<Schedule> page, String shopType, String search) {
+        return scheduleMapper.selectForIndex(page, shopType, search);
     }
 }

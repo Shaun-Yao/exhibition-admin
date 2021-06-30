@@ -21,7 +21,8 @@ public interface RoomMapper extends BaseMapper<Room> {
 
 
     @Select({"<script>",
-            "SELECT room.id, room.user_id as userId, room.type, group_concat(participant.name) as userNames FROM room_participant rp ",
+            "SELECT room.id, room.user_id as userId, room.type, shop.code as shopCode, shop.name as shopName,",
+            "group_concat(participant.name) as userNames FROM room_participant rp ",
             "LEFT JOIN participant ON rp.participant_id = participant.id ",
             "LEFT JOIN room ON rp.room_id = room.id ",
             "LEFT JOIN `user` ON room.user_id = `user`.id ",
@@ -30,12 +31,13 @@ public interface RoomMapper extends BaseMapper<Room> {
             "<if test='shopType!=null and shopType!=\"\"'>",
             "AND shop.type = #{shopType} ",
             "</if>",
-            "<if test='userId!=null and userId!=\"\"'>",
-            "AND room.user_id like CONCAT('%', #{userId}, '%')",
-            "</if>",
             "GROUP BY room_id",
+            "<if test='search!=null and search!=\"\"'>",
+            " HAVING (userId like CONCAT('%', #{search}, '%') or userNames like CONCAT('%', #{search}, '%')",
+            " or shopCode like CONCAT('%', #{search}, '%') or shopName like CONCAT('%', #{search}, '%'))",
+            "</if>",
             "</script>"})
-    IPage<RoomVO> selectForIndex(IPage<RoomVO> page, @Param("shopType") String shopType, @Param("userId") String userId);
+    IPage<RoomVO> selectForIndex(IPage<RoomVO> page, @Param("shopType") String shopType, @Param("search") String search);
 
 
     /**

@@ -19,7 +19,7 @@ import java.util.List;
  */
 public interface IParticipantService extends IService<Participant> {
 
-    IPage<ParticipantVO> getForIndex(Page<Participant> page, String shopType, String name);
+    IPage<ParticipantVO> getForIndex(Page<Participant> page, String shopType, String search);
 
     List<Participant> getAvailable(String shopType);
     List<Participant> getAvailableChildren(String shopType);

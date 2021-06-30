@@ -33,12 +33,13 @@ public interface ScheduleMapper extends BaseMapper<Schedule> {
             "<if test='shopType!=null and shopType!=\"\"'>",
             "AND shop.type = #{shopType} ",
             "</if>",
-            "<if test='userId!=null and userId!=\"\"'>",
-            "AND sc.user_id like CONCAT('%', #{userId}, '%')",
-            "</if>",
             "GROUP BY `user`.id",
+            "<if test='search!=null and search!=\"\"'>",
+            " HAVING (userId like CONCAT('%', #{search}, '%') or userNames like CONCAT('%', #{search}, '%')",
+            " or shopCode like CONCAT('%', #{search}, '%') or shopName like CONCAT('%', #{search}, '%'))",
+            "</if>",
             "</script>"})
-    IPage<ScheduleVO> selectForIndex(IPage<Schedule> page, @Param("shopType") String shopType, @Param("userId") String userId);
+    IPage<ScheduleVO> selectForIndex(IPage<Schedule> page, @Param("shopType") String shopType, @Param("search") String search);
 
 
 }
